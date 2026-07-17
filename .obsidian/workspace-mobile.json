@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "Learning Obsidian I guess.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -167,6 +167,7 @@
   },
   "active": "81377a9fb4a0f5ab",
   "lastOpenFiles": [
+    "README.md",
     "Learning Obsidian I guess.md"
   ]
 }
