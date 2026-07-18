@@ -6,4 +6,4 @@ Society can be viewed from three different angles
 2. Society as solidarity
 3. Society as creation
 
-#society #wocie
+#society #social-science
