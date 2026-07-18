@@ -8,4 +8,19 @@ Society can be viewed from three different angles
 
 Seems like the meaning of society has been a heavily debated topic as usual with these social science scholars.
 
+
+Raymond Williams defines society
+> Society is now clear in two main senses: as our most general  term for the body of institutions and relationships within which  a relatively large group of people live; and as our most abstract  term for the condition in which such institutions and relationships  are formed.
+> 
+
+
+
+
+>Society exists where several individuals enter into interaction.
+						- Georg Simmel
+
+
+
+
+
 #society #social-science

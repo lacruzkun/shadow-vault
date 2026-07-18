@@ -6,3 +6,4 @@
 2. (uncountable) Willingness to give psychological and/or material support when another person is in a difficult position or needs affection.
 
 > Only the solidarity provided by her siblings allowed Margaret to cope with her mother's harrowing death.
+
