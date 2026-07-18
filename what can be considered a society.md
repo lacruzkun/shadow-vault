@@ -3,4 +3,7 @@ Reading [On Society][https://www.google.com/search?q=On+Society+Anthony+Elliott&
 Society can be viewed from three different angles
 
 1. Society as structure
-2. Society as 
+2. Society as solidarity
+3. Society as creation
+
+#society #wocie
