@@ -6,4 +6,6 @@ Society can be viewed from three different angles
 2. Society as [[solidarity]]
 3. Society as creation
 
+Seems like the meaning of society has been a heavily debated topic as usual with these social science scholars.
+
 #society #social-science
