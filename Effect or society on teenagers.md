@@ -1,7 +1,8 @@
 
 
 
-
+Mark Zuckerberg 
+Apple coming together society as teens
 
 #todo
 - [ ] [[what can be considered a society]]
