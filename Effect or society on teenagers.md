@@ -10,3 +10,6 @@ Apple coming together society as teens
 - [ ] external effect from fellow teenagers
 - [ ] external effect from adults or people of power
 - [ ] effects from the structure of the society
+
+
+#society #social-science 
