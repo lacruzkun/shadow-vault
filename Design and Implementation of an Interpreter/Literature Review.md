@@ -41,4 +41,6 @@ Klabnik, Steve. _The Rust Programming Language, 2nd Edition_. With Carol Nichols
 
 Klabnik, S. (with Nichols, C.). (2023). _The Rust Programming Language, 2nd Edition_. No Starch Press.
 
+_4. Execution model_. (n.d.). Python Documentation. Retrieved 21 July 2026, from [https://docs.python.org/3/reference/executionmodel.html](https://docs.python.org/3/reference/executionmodel.html)
+
 #interpreter #computer-science #programming
