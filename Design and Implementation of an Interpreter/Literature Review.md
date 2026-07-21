@@ -34,8 +34,9 @@ if there's any flaw anywhere highlight it and my surpervisor said i should focus
 
 
 ## Introduction
-This section is dedicated to reviewing how programming language are implemented and executed. Existing implemetations are too complex for what a minimal educational interpreter needs, since most are compiled or hybrid systems with architecture beyond what a lightweight interpreter requires. I will be looking into different execution implementations across different paradigms such as Rust, Haskell, Lisp, Python, Lua, OCaml and JavaScript runtimes. I'll look at their implementation approaches, common challenges they raise, before discussing how these inform my own design.
+This section is dedicated to reviewing how programming languages are implemented and executed. Existing implemetations are too complex for what a minimal educational interpreter needs, since most are compiled or hybrid systems with architecture beyond what a lightweight interpreter requires. I will be looking into different execution implementations across different paradigms such as Rust, Haskell, Lisp, Python, Lua, OCaml and JavaScript runtimes. I'll look at their implementation approaches, common challenges they raise, before discussing how these inform my own design.
 
+## How Each Language Implements Execution
 
 
 
