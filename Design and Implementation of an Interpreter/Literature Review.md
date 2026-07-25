@@ -46,7 +46,7 @@ The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compil
 
 Lua like most interpreters uses a byte code VM. But Lua is very minimal using only around 38 opcodes for the VM (Kein-Hong Man, 2006). Its simplicity is what makes it a joy to use, although i'd rather it had a little bit of a simple type system at the least.
 
-OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt
+OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt (Whitington, 2013).
 ## Glossary
 
 
@@ -64,5 +64,8 @@ Lazy evaluation. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?t
 Kein-Hong Man. (2006). _A no-frills introduction to Lua 5.1 VM instructions (Version 0.1)_. Internet Archive. [https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions](https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions)
 
 Python (programming language). (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1365917903](https://en.wikipedia.org/w/index.php?title=Python_\(programming_language\)&oldid=1365917903)
+
+Whitington, J. (2013). _OCaml from the very beginning_. Coherent Press.
+
 
 #interpreter #computer-science #programming
