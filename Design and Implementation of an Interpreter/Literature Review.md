@@ -43,4 +43,25 @@ Klabnik, S. (with Nichols, C.). (2023). _The Rust Programming Language, 2nd Edit
 
 _4. Execution model_. (n.d.). Python Documentation. Retrieved 21 July 2026, from [https://docs.python.org/3/reference/executionmodel.html](https://docs.python.org/3/reference/executionmodel.html)
 
+
+
+
+
+
+
+
+
+
+well ok let's go
+
+since we're focusing mostly on the interpreter which is the means of execution not the language design itself
+
+lemme start with rust
+
+rust uses a strict compiler that enforces memory ownership at compiler time and it produces native binary what i think is usefull here is it's strick rules some might argue it's bad but i think when i system has one way of doing something it make it easier for a beginner to wrap there head around it
+
+python uses an interpreter that very flexible infact too flexible for my liking and it pays that price with memory and execution speed variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also its usually a bad practise to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms, and i think imperitive and functional paradigms are the most essential ways of thinking a beginner should master to laydown the blocks for future learning
+
+[disclaimer i'm just writing with what i know i haven't actually read any of the sources of the languages but i've worked with these languages, so i'm giving this paragraphs from my experience]
+[and i know you said i should split them into themes but i just can't figure it out]
 #interpreter #computer-science #programming
