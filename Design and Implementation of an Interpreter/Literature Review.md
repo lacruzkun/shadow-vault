@@ -37,32 +37,13 @@ if there's any flaw anywhere highlight it and my surpervisor said i should focus
 This section is dedicated to reviewing how programming languages are implemented and executed. Existing implenmetations are too complex for what a minimal educational interpreter needs, since most are compiled or hybrid systems with architecture beyond what a lightweight interpreter requires. I will be looking into different execution implementations across different paradigms such as Rust, Haskell, Lisp, Python, Lua, OCaml and JavaScript runtimes. I'll look at their implementation approaches, common challenges they raise, before discussing how these inform my own design.
 
 ## How Each Language Implements Execution
-Klabnik, Steve. _The Rust Programming Language, 2nd Edition_. With Carol Nichols. No Starch Press, 2023.
 
-Klabnik, S. (with Nichols, C.). (2023). _The Rust Programming Language, 2nd Edition_. No Starch Press.
+Rust uses a strict compiler that enforces memory ownership at compiler time and it produces native binary (Klabnik, 2023). what i think is usefull here is it's strick rules some might argue it's bad but i think when i system has one way of doing something it make it easier for a beginner to wrap there head around it
 
-_4. Execution model_. (n.d.). Python Documentation. Retrieved 21 July 2026, from [https://docs.python.org/3/reference/executionmodel.html](https://docs.python.org/3/reference/executionmodel.html)
-
-
-
-
-
-
-
-
-
-
-well ok let's go
-
-since we're focusing mostly on the interpreter which is the means of execution not the language design itself
-
-lemme start with rust
-
-rust uses a strict compiler that enforces memory ownership at compiler time and it produces native binary (Klabnik, 2023). what i think is usefull here is it's strick rules some might argue it's bad but i think when i system has one way of doing something it make it easier for a beginner to wrap there head around it
-
-python uses an interpreter that very flexible infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also its usually a bad practise to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms, and i think imperitive and functional paradigms are the most essential ways of thinking a beginner should master to laydown the blocks for future learning
-
+python uses an interpreter that very flexible infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program (Python Software Foundation, n.d.), now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also its usually a bad practise to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms, and i think imperitive and functional paradigms are the most essential ways of thinking a beginner should master to laydown the blocks for future learning
 
 
 Klabnik, Steve. _The Rust Programming Language, 2nd Edition_. With Carol Nichols. No Starch Press, 2023.
+
+Python Software Foundation. (n.d.). _The Python language reference: Data model_. Retrieved 25 July 2026, from [https://docs.python.org/3/reference/datamodel.html](https://docs.python.org/3/reference/datamodel.html)
 #interpreter #computer-science #programming
