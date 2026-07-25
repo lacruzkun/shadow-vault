@@ -42,7 +42,7 @@ Rust uses a strict compiler that enforces memory ownership at compiler time and 
 
 python uses an interpreter that very flexible infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program (Python Software Foundation, n.d.), now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also its usually a bad practise to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms, and i think imperitive and functional paradigms are the most essential ways of thinking a beginner should master to laydown the blocks for future learning.
 
-The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as Glossary:  [[generalized algebraic data types]] and also lazy evaluation (‘Haskell’, 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.).
+The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as Glossary:  [[generalized algebraic data types]] and also lazy evaluation (‘Haskell’, 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.). most compilers and interpreters of functional programming languages use lazy evaluation, lazy evaluation is hard to implement with imperative features like exception handling and input/output because the order of operations becomes indeterminate (‘Lazy Evaluation’, 2026).
 
 
 ## Glossary
@@ -55,9 +55,9 @@ Python Software Foundation. (n.d.). _The Python language reference: Data model_.
 
 Haskell. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Haskell&oldid=1364608049](https://en.wikipedia.org/w/index.php?title=Haskell&oldid=1364608049)
 
-HaskellWiki. (n.d.). _Lazy evaluation_. Retrieved 25 July 2026, from [https://wiki.haskell.org/Lazy_evaluation](https://wiki.haskell.org/Lazy_evaluation)
+HaskellWiki. (n.d.). _Haskell lazy evaluation_. Retrieved 25 July 2026, from [https://wiki.haskell.org/Lazy_evaluation](https://wiki.haskell.org/Lazy_evaluation)
 
-
+Lazy evaluation. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Lazy_evaluation&oldid=1353732111](https://en.wikipedia.org/w/index.php?title=Lazy_evaluation&oldid=1353732111)
 
 
 
