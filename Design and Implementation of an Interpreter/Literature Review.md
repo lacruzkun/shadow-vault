@@ -38,15 +38,27 @@ This section is dedicated to reviewing how programming languages are implemented
 
 ## How Each Language Implements Execution
 
-Rust uses a strict compiler that enforces memory ownership at compiler time and it produces native binary (Klabnik, 2023). what i think is usefull here is it's strick rules some might argue it's bad but i think when i system has one way of doing something it make it easier for a beginner to wrap there head around it
+Rust uses a strict compiler that enforces memory ownership at compile time and it produces native binary (Klabnik, 2023). what i think is useful here is it's strict rules, some might argue it's bad but i think when a system has one way of doing something it makes it easier for a beginner to wrap their head around it.
 
-python uses an interpreter that very flexible infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program (Python Software Foundation, n.d.), now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also its usually a bad practise to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms (‘Python (Programming Language)’, 2026), and i think imperitive and functional paradigms are the most essential ways of thinking a beginner should master to laydown the blocks for future learning.
+python uses an interpreter that is very flexible, infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program (Python Software Foundation, n.d.), now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also it's usually a bad practice to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms (‘Python (Programming Language)’, 2026), and i think imperative and functional paradigms are the most essential ways of thinking a beginner should master to lay down the blocks for future learning.
 
 The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as Glossary:  [[Generalized Algebraic Data Types]] (GADT) and also lazy evaluation (‘Haskell’, 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.). most compilers and interpreters of functional programming languages use lazy evaluation, lazy evaluation is hard to implement with imperative features like exception handling and input/output because the order of operations becomes indeterminate (‘Lazy Evaluation’, 2026).
 
 Lua like most interpreters uses a byte code VM. But Lua is very minimal using only around 38 opcodes for the VM (Kein-Hong Man, 2006). Its simplicity is what makes it a joy to use, although i'd rather it had a little bit of a simple type system at the least.
 
-OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt (Whitington, 2013).
+OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt (Whitington, 2013). Ocaml uses Glossary: Hindley-Milner style type inference which means you almost never write a type explicitly but it's still statically analysed and strictly enforced. The compiler/interpreter also warns when a match on an Glossary: Algebraic Data Type (ADT) is not exhaustive. 
+
+## Cross cutting challenges interpreters face
+
+
+
+
+
+
+
+
+
+
 ## Glossary
 
 
