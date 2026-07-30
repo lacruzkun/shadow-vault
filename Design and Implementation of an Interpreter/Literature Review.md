@@ -48,7 +48,7 @@ Lua like most interpreters uses a byte code VM. But Lua is very minimal using on
 
 OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt (Whitington, 2013). Ocaml uses Glossary: Hindley-Milner style type inference which means you almost never write a type explicitly but it's still statically analysed and strictly enforced. The compiler/interpreter also warns when a match on an Glossary: Algebraic Data Type (ADT) is not exhaustive. 
 
-Lisp is a broad term having many flavours, but i'm going to focus on the general idea every lisp implements. 
+Lisp is a broad term having many flavours, but i'm going to focus on the general idea every lisp implements. Lisp has a tiny set of primitives like lua, but unlike lua it builds everything else from those primitives. Lisp is a very mathematical model centric language and is used as a formalism for computation. 
 
 ## Cross cutting challenges interpreters face
 
