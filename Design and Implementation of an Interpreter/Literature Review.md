@@ -50,7 +50,7 @@ OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can b
 
 Lisp is a broad term having many flavours, but i'm going to focus on the general idea every lisp implements. Lisp has a tiny set of primitives like lua, but unlike lua which uses minimal opcode (Low level VM instructions) to represent users source code, Lisp's primitives are language-level building blocks used by the programmer to builds everything (McCarthy, 1960). Lisp is a very mathematical model centric language (McCarthy, 1960) and is used as a formalism for computation. It has a manageable interpreter that is self hosted. Lisp has a fascinating property where data is code, and code is data (McCarthy, 1960).
 
-JS runtime is a complex system, using most of mordern infrastructures and research to make the most out of the CPU in terms of performance. Because of it's complexity it isn't just an interpreter or a compiler it's uses different methods at different point of the execution pipeline. The first phase is the Ignition phase here it's purely interpreted. Next is the TurboFan phase if a function gets called a lot (hot spot) it's  compile to native code and then called instead of being interpreted every time. While the execution is quite fascinating, i'm afraid it's too complicated for what we are going for.
+JS runtime is a complex system, using most of mordern infrastructures and research to make the most out of the CPU in terms of performance (_V8 Javascript Engine Documentation_, n.d.). Because of it's complexity it isn't just an interpreter or a compiler it's uses different methods at different point of the execution pipeline. The first phase is the Ignition phase here it's purely interpreted. Next is the TurboFan phase if a function gets called a lot (hot spot) it's  compile to native code and then called instead of being interpreted every time (_V8 Javascript Engine Documentation_, n.d.). While the execution is quite fascinating, i'm afraid it's too complicated for what we are going for.
 
 
 ## Cross cutting challenges interpreters face
@@ -85,6 +85,9 @@ Python (programming language). (2026). In _Wikipedia_. [https://en.wikipedia.org
 Whitington, J. (2013). _OCaml from the very beginning_. Coherent Press.
 
 McCarthy, J. (1960). Recursive functions of symbolic expressions and their computation by machine, Part I. _Communications of the ACM_, _3_(4), 184–195. [https://doi.org/10.1145/367177.367199](https://doi.org/10.1145/367177.367199)
+
+_V8 Javascript Engine Documentation_. (n.d.). Retrieved 21 July 2026, from [https://v8.dev/docs](https://v8.dev/docs)
+
 
 
 #interpreter #computer-science #programming
