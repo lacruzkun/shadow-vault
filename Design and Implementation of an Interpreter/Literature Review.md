@@ -42,7 +42,7 @@ Rust uses a strict compiler that enforces memory ownership at compile time and i
 
 Python uses an interpreter that is very flexible, infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program (Python Software Foundation, n.d.), now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also it's usually a bad practice to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms ("Python (Programming Language)", 2026), and i think imperative and functional paradigms are the most essential ways of thinking a beginner should master to lay down the blocks for future learning.
 
-The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as Glossary:  [[Generalized Algebraic Data Types]] (GADT) and also lazy evaluation ("Haskell", 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.). most compilers and interpreters of functional programming languages use lazy evaluation, lazy evaluation is hard to implement with imperative features like exception handling and input/output because the order of operations becomes indeterminate ("Lazy Evaluation", 2026).
+The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as Glossary:  [[Generalized Algebraic Data Types]] (GADT) and also lazy evaluation ("Haskell", 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.). most compilers and interpreters of functional programming languages use lazy evaluation, lazy evaluation is hard to implement with imperative features like exception handling and input/output because the order of operations becomes indeterminate (Karachalias et al., 2015).
 
 Lua like most interpreters uses a byte code VM. But Lua is very minimal using only around 38 opcodes for the VM (Man, 2006). Its simplicity is what makes it a joy to use, although i'd rather it had a little bit of a simple type system at the least.
 
@@ -65,9 +65,17 @@ For a minimal, educational interpreter, going for simplicity seems most appropri
 ### Type-Error Timing
 In the aspect of type errors it is crucial for the interpreter to verify type correctness of the program. Different interpreters/compilers approach this in different ways, some give a hard error before running, some give warnings and then run while some only catch it at runtime.
 
-Rust catches all type related error at compilation and aborts, it checks for interactions between different types to ensure there's no undefined behaviour, while its ADT also being exhaustive means it raises an error when you don't make a case for each possible variants of an ADT (Klabnik, 2023). OCaml also catches type related error at compile time but it only gives a warning and continues execution (Whitington, 2013). Haskell checks types at compile time like OCaml, but unlike OCaml it doesn't warn about incomplete pattern matching by default. At the end of the spectrum we have python and lua both are dynamically typed meaning the types of variables, functions, classes and symbols can change at runtime only raising errors when an operation is not valid.
+Rust catches all type related error at compilation and aborts, it checks for interactions between different types to ensure there's no undefined behaviour, while its ADT also being exhaustive means it raises an error when you don't make a case for each possible variant of an ADT (Klabnik, 2023). OCaml also catches general type errors at compile time as a hard failure, but its exhaustiveness check for ADT pattern matches only produces a warning rather than blocking compilation (Whitington, 2013). Haskell checks types at compile time like OCaml, but unlike OCaml it doesn't warn about incomplete pattern matching by default (Karachalias et al., 2015). At the end of the spectrum we have Python and Lua both are dynamically typed meaning the types of variables, functions, classes and symbols can change at runtime only raising errors when an operation is not valid (Python Software Foundation, n.d.; _Lua 5.4 Reference Manual_, n.d.).
+
+For a minimal, beginner-oriented interpreter, catching errors early seems more appropriate, because it teaches the beginner how the system works early on  While a loose type system might allow for more exploration it also aids in potentially developing bad habits for the beginner while also being frustrating because an error doesn't show up unless that part of the code runs and if the project gets to a resonable size that would be very frustrating.
 
 ### Syntax and Complexity
+
+- Rust: "one way of doing something... easier for a beginner to wrap their head around it"
+- Python: "expressiveness and simplicity... handle different paradigms... imperative and functional... essential ways of thinking"
+- Lua: "simplicity is what makes it a joy to use"
+- Lisp: minimal primitives, self-hosted interpreter, homoiconicity — Lisp is actually your best material for this theme, since "small core, everything built from it" is directly a complexity/manageability point
+- JS: "too complicated for what we are going for" — this is actually your clearest verdict statement in the whole draft, very usable
 
 ### Feature Completeness
 
@@ -101,6 +109,10 @@ Whitington, J. (2013). _OCaml from the very beginning_. Coherent Press.
 McCarthy, J. (1960). Recursive functions of symbolic expressions and their computation by machine, Part I. _Communications of the ACM_, _3_(4), 184–195. [https://doi.org/10.1145/367177.367199](https://doi.org/10.1145/367177.367199)
 
 V8. (n.d.). _V8 Javascript Engine Documentation_. Retrieved 21 July 2026, from [https://v8.dev/docs](https://v8.dev/docs)
+Karachalias, G., Schrijvers, T., Vytiniotis, D., & Jones, S. P. (2015). GADTs meet their match: Pattern-matching warnings that account for GADTs, guards, and laziness. _Proceedings of the 20th ACM SIGPLAN International Conference on Functional Programming_, 424–436. [https://doi.org/10.1145/2784731.2784748](https://doi.org/10.1145/2784731.2784748)
+
+
+
 
 
 
