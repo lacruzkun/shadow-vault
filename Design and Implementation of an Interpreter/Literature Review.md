@@ -55,8 +55,10 @@ JS runtime is a complex system, using most of mordern infrastructure and researc
 
 ## Cross cutting challenges interpreters face
 
+### Performance vs. Simplicity
+Each language tries to tackle the problem of performance and simplicity from different angles. Some accept a strict tradeoff, while others try to get both by shifting the cost to either a build time choice or to runtime adaptivity.
 
-
+Rust takes the strict approach by producing optimized native binary for the specific platform (Klabnik, 2023). Python however sits on the opposite side of the same tradeoff: it prioritizes flexibility and simplicity, which increases the memory usage and reduces performance (Python Software Foundation, n.d.). OCaml tried to resolve this tradeoff by letting the programmer decide which is conducive for them, the programmer can decide to go with the bytecode interpreter which starts executing instantly but slow on the long-run, or go with the compiler which compiles to native code so is faster when running (Whitington, 2013). JavaScript runtimes go further and gives that choice to the runtime itself, so the runtimes chooses what part of the code to compile to native code and what part should be interpreted, thereby making the runtime system intricate (V8, n.d.).
 
 
 
