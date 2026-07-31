@@ -65,16 +65,7 @@ For a minimal, educational interpreter, going for simplicity seems most appropri
 ### Type-Error Timing
 In the aspect of type errors it is crucial for the interpreter to verify type correctness of the program. Different interpreters/compilers approach this in different ways, some give a hard error before running, some give warnings and then run while some only catch it at runtime.
 
-Rust is the catches all type related error at compilation and aborts it check for interaction between different types to ensure no undefined behaviour while its ADT also being exhaustive meaning it raises an error when you don't make a case for each possible variant of an ADT. OCaml also catches type related error at compile time but it only gives a warning and continues execution. Haskell on the other hand doesn't catch any errors at compile time it runs the program and then when it reach a section when an undefined relation is used regarding types it raises an error. At the end of the spectrum we have python and lua both are dynamically typed meaning the types of variables, functions, classes and symbols can change at runtime only raising errors when an operation is not valid.
-
-Rust ownership at compile time
-
-Python variable can store arbitrary data and change data midway through the program
-
-Haskell such as Glossary:  [[Generalized Algebraic Data Types]] (GADT)
-
-OCaml checks if Glossary: Algebraic Data Type (ADT) is not exhaustive
-
+Rust catches all type related error at compilation and aborts, it checks for interactions between different types to ensure there's no undefined behaviour, while its ADT also being exhaustive means it raises an error when you don't make a case for each possible variants of an ADT (Klabnik, 2023). OCaml also catches type related error at compile time but it only gives a warning and continues execution (Whitington, 2013). Haskell checks types at compile time like OCaml, but unlike OCaml it doesn't warn about incomplete pattern matching by default. At the end of the spectrum we have python and lua both are dynamically typed meaning the types of variables, functions, classes and symbols can change at runtime only raising errors when an operation is not valid.
 
 ### Syntax and Complexity
 
