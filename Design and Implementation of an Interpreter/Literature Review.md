@@ -60,6 +60,24 @@ Each language tries to tackle the problem of performance and simplicity from dif
 
 Rust takes the strict approach by producing optimized native binary for the specific platform (Klabnik, 2023). Python however sits on the opposite side of the same tradeoff: it prioritizes flexibility and simplicity, which increases the memory usage and reduces performance (Python Software Foundation, n.d.). OCaml tried to resolve this tradeoff by letting the programmer decide which is conducive for them, the programmer can decide to go with the bytecode interpreter which starts executing instantly but slow on the long-run, or go with the compiler which compiles to native code so is faster when running (Whitington, 2013). JavaScript runtimes go further and gives that choice to the runtime itself, so the runtimes chooses what part of the code to compile to native code and what part should be interpreted, thereby making the runtime system intricate (V8, n.d.).
 
+For a minimal, educational interpreter, going for simplicity seems most appropriate because it would be easier to demonstrate features and easier for beginners to wrap their heads around; while going for highest performance possible would likely add complexity that works against being manageable and minimal.
+
+### Type-Error Timing
+
+Rust ownership at compile time
+
+Python variable can store arbitrary data and change data midway through the program
+
+Haskell such as Glossary:  [[Generalized Algebraic Data Types]] (GADT)
+
+OCaml Glossary: Algebraic Data Type (ADT) is not exhaustive
+
+
+### Syntax and Complexity
+
+### Feature Completeness
+
+
 
 
 
