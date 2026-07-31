@@ -70,7 +70,7 @@ Python variable can store arbitrary data and change data midway through the prog
 
 Haskell such as Glossary:  [[Generalized Algebraic Data Types]] (GADT)
 
-OCaml Glossary: Algebraic Data Type (ADT) is not exhaustive
+OCaml checks if Glossary: Algebraic Data Type (ADT) is not exhaustive
 
 
 ### Syntax and Complexity
