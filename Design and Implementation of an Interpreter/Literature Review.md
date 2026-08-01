@@ -70,6 +70,8 @@ Rust catches all type related error at compilation and aborts, it checks for int
 For a minimal, beginner-oriented interpreter, catching errors early seems more appropriate, because it teaches the beginner how the system works early on  While a loose type system might allow for more exploration it also aids in potentially developing bad habits for the beginner while also being frustrating because an error doesn't show up unless that part of the code runs and if the project gets to a resonable size that would be very frustrating.
 
 ### Syntax and Complexity
+The syntax and complexity of the language determines if it's beginner friendly or mentally draining. Over complex syntax makes the language look clutter and makes it hard for beginners to focus on the fundamentals, while over simplification makes it harder to write and keep track of the code.
+
 
 - Rust: "one way of doing something... easier for a beginner to wrap their head around it"
 - Python: "expressiveness and simplicity... handle different paradigms... imperative and functional... essential ways of thinking"
