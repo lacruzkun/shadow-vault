@@ -67,21 +67,14 @@ In the aspect of type errors it is crucial for the interpreter to verify type co
 
 Rust catches all type related error at compilation and aborts, it checks for interactions between different types to ensure there's no undefined behaviour, while its ADT also being exhaustive means it raises an error when you don't make a case for each possible variant of an ADT (Klabnik, 2023). OCaml also catches general type errors at compile time as a hard failure, but its exhaustiveness check for ADT pattern matches only produces a warning rather than blocking compilation (Whitington, 2013). Haskell checks types at compile time like OCaml, but unlike OCaml it doesn't warn about incomplete pattern matching by default (Karachalias et al., 2015). At the end of the spectrum we have Python and Lua both are dynamically typed meaning the types of variables, functions, classes and symbols can change at runtime only raising errors when an operation is not valid (Python Software Foundation, n.d.; _Lua 5.4 Reference Manual_, n.d.).
 
-For a minimal, beginner-oriented interpreter, catching errors early seems more appropriate, because it teaches the beginner how the system works early on  While a loose type system might allow for more exploration it also aids in potentially developing bad habits for the beginner while also being frustrating because an error doesn't show up unless that part of the code runs and if the project gets to a resonable size that would be very frustrating.
+For a minimal, beginner-oriented interpreter, catching errors early seems more appropriate, because it teaches the beginner how the system works from the start. While a loose type system might allow for more exploration, it also risks encouraging bad habits, and can be frustrating in practice. An error might not surface until the specific part of the code that contains it actually runs, which becomes especially painful as a project grows in size. I'm leaning closer to OCaml's model than Rust's full strictness, given the scope of a minimal interpreter.
 
 ### Syntax and Complexity
 The issue of complexity can be viewed from the perspective of the person building the interpreter, versus the perspective of the person writing programs in the language once it exists.
 
 JavaScript Runtimes is a nightmare of a system, so complex to implement that it also leaks to the programmers experience being a very difficult language to work with (V8, n.d.). Lisp on the other hand has a very simple implementation, so the job of the implementer is easy but the programmer has to use those little primitives  to build a more complete structure such as more complex conditionals or basic arithmetic operations making it hard for beginners to use (McCarthy, 1960). The Rust compiler take an enormous burden of making itself strict for the benefit of the programmer, things can usually only be done one way making the language unambiguous and straightforward to use (Klabnik, 2023).
 
-The syntax and complexity of the language determines if it's beginner friendly or mentally draining. Over complex syntax makes the language look clutter and makes it hard for beginners to focus on the fundamentals, while over simplification makes it harder to write and keep track of the code.
-
-
-- Rust: "one way of doing something... easier for a beginner to wrap their head around it"
-- Python: "expressiveness and simplicity... handle different paradigms... imperative and functional... essential ways of thinking"
-- Lua: "simplicity is what makes it a joy to use"
-- Lisp: minimal primitives, self-hosted interpreter, homoiconicity — Lisp is actually your best material for this theme, since "small core, everything built from it" is directly a complexity/manageability point
-- JS: "too complicated for what we are going for" — this is actually your clearest verdict statement in the whole draft, very usable
+I'm leaning toward Rust's approach, but not fully. The interpreter's implementation will take on more of the burden than Lisp's bare-minimum primitives, giving the programmer built-in conveniences rather than requiring them to construct everything themselves, without going as far as Rust's full compile-time enforcement, which is beyond the scope of a minimal educational interpreter.
 
 ### Feature Completeness
 
