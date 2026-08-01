@@ -70,6 +70,10 @@ Rust catches all type related error at compilation and aborts, it checks for int
 For a minimal, beginner-oriented interpreter, catching errors early seems more appropriate, because it teaches the beginner how the system works early on  While a loose type system might allow for more exploration it also aids in potentially developing bad habits for the beginner while also being frustrating because an error doesn't show up unless that part of the code runs and if the project gets to a resonable size that would be very frustrating.
 
 ### Syntax and Complexity
+The issue of complexity can be viewed from the perspective of the person building the interpreter, versus the perspective of the person writing programs in the language once it exists.
+
+JavaScript Runtimes is a nightmare of a system, so complex to implement and also leaks to the programmers experience being a very difficult language to work with. Lisp on the other hand has a very simple implementation, so the job of the implementer is easy but the programmer has to use those little primitives to build a more rigid structure making it hard for beginners to use. The Rust compiler take an enourmous burden of making the comipiler strict for the benefit of the programmer, things can usually only be done one way making the language unambiguous and straightforward to use.
+
 The syntax and complexity of the language determines if it's beginner friendly or mentally draining. Over complex syntax makes the language look clutter and makes it hard for beginners to focus on the fundamentals, while over simplification makes it harder to write and keep track of the code.
 
 
