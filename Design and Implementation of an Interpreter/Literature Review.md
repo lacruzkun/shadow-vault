@@ -78,10 +78,10 @@ I'm leaning toward Rust's approach, but not fully. The interpreter's implementat
 
 ### Feature Completeness
 
-Conditionals: Rust uses `if` and `else` for conditionals and also provides exhaustive pattern matching with the `match` keyword (Klabnik, 2023). Python uses `if`/`elif`/`else` statements for conditionals, but unlike Rust it does not enforce exhaustiveness, so an `else` branch is optional (Python Software Foundation, n.d.). In OCaml, conditionals are expressions, not statements, so `if condition then expr1 else expr2` evaluates to one of two values, and both branches must return compatible types (Leroy et al., 2026). In Lisp, conditionals are special forms that evaluate only the branch whose condition succeeds, with most Lisp dialects treating only a single false value (`NIL` or `#f`) as false and everything else as true. In Haskell, conditionals are lazy expressions that evaluate the Boolean condition first and then evaluate only the selected branch, returning its value while leaving the other branch unevaluated (Marlow, 2010).
+Conditionals: Rust uses `if` and `else` for conditionals and also provides exhaustive pattern matching with the `match` keyword (Klabnik, 2023). Python uses `if`/`elif`/`else` statements for conditionals, but unlike Rust it does not enforce exhaustiveness, so an `else` branch is optional (Python Software Foundation, n.d.). In OCaml, conditionals are expressions, not statements, so `if condition then expr1 else expr2` evaluates to one of two values, and both branches must return compatible types (Leroy et al., 2026). In Lisp, conditionals are special forms that evaluate only the branch whose condition succeeds, with most Lisp dialects treating only a single false value (`NIL` or `#f`) as false and everything else as true (Steele, 1990). In Haskell, conditionals are lazy expressions that evaluate the Boolean condition first and then evaluate only the selected branch, returning its value while leaving the other branch unevaluated (Marlow, 2010).
 
 File I/O:
-Lambda functions:
+Lambda functions: Anonymous functions are based on the concept of lambda expressions from lambda calculus, which was first introduced into programming through Lisp (McCarthy, 1960). Python uses `lambda` to create small anonymous functions consisting of a single expression, which is automatically evaluated and returned when the function is called (Python Software Foundation, n.d.). Haskell, being based on lambda calculus, uses lambda expressions to create anonymous functions that are first-class values, evaluated lazily, and can be passed, returned, or partially applied like any other function (Marlow, 2010). Rust uses `|parameters| expression` syntax to create anonymous functions called closures, which can capture values from their surrounding environment and are evaluated only when called (Klabnik, 2023). Similarly, OCaml uses the `fun` keyword to create anonymous functions, which are also first-class values that can be passed, returned, or partially applied like named functions (Leroy et al., 2026).
 map()/filter():
 Comprehension:
 Iteration:
@@ -121,6 +121,7 @@ Leroy, X., Doligez, D., Frisch, A., Garrigue, J., Rémy, D., Sivaramakrishnan, K
 
 Marlow, S. (Ed.). (2010). _Haskell 2010 Language Report_. [https://www.haskell.org/definition/haskell2010.pdf](https://www.haskell.org/definition/haskell2010.pdf)
 
+Steele, G. L. (1990). _COMMON LISP: The language_ (2nd ed). Digital Press.
 
 
 
