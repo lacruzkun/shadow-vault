@@ -80,7 +80,7 @@ I'm leaning toward Rust's approach, but not fully. The interpreter's implementat
 
 Conditionals: Rust uses if and else statements to check for conditions but it also provides exhaustive pattern matching with the match keyword. Python uses if/elif/else statements without checks for exhaustiveness so i can have if elif and no else. In OCaml, conditionals are expressions, not statements, so if condition then expr1 else expr2 evaluates to one of two values, and both branches must produce compatible types. In Lisp, conditionals are special forms that choose and evaluate only the branch whose condition succeeds, with most Lisp dialects treating only a single false value (typically `NIL` or `#f`) as false and everything else as true. In Haskell, conditionals are lazy expressions that evaluate the Boolean condition first and then evaluate only the selected branch, returning its value while leaving the other branch unevaluated.
 
-Rust uses `if` and `else` for conditionals and also provides exhaustive pattern matching with the `match` keyword (Klabnik, 2023). Python uses `if`/`elif`/`else` statements for conditionals, but unlike Rust it does not enforce exhaustiveness, so an `else` branch is optional. In OCaml, conditionals are expressions, not statements, so `if condition then expr1 else expr2` evaluates to one of two values, and both branches must return compatible types. In Lisp, conditionals are special forms that evaluate only the branch whose condition succeeds, with most Lisp dialects treating only a single false value (`NIL` or `#f`) as false and everything else as true. In Haskell, conditionals are lazy expressions that evaluate the Boolean condition first and then evaluate only the selected branch, returning its value while leaving the other branch unevaluated.
+Rust uses `if` and `else` for conditionals and also provides exhaustive pattern matching with the `match` keyword (Klabnik, 2023). Python uses `if`/`elif`/`else` statements for conditionals, but unlike Rust it does not enforce exhaustiveness, so an `else` branch is optional (Python Software Foundation, n.d.). In OCaml, conditionals are expressions, not statements, so `if condition then expr1 else expr2` evaluates to one of two values, and both branches must return compatible types. In Lisp, conditionals are special forms that evaluate only the branch whose condition succeeds, with most Lisp dialects treating only a single false value (`NIL` or `#f`) as false and everything else as true. In Haskell, conditionals are lazy expressions that evaluate the Boolean condition first and then evaluate only the selected branch, returning its value while leaving the other branch unevaluated.
 
 File I/O:
 Lambda functions:
@@ -100,7 +100,7 @@ Iteration:
 ## References
 Klabnik, Steve. _The Rust Programming Language, 2nd Edition_. With Carol Nichols. No Starch Press, 2023.
 
-Python Software Foundation. (n.d.). _The Python language reference: Data model_. Retrieved 25 July 2026, from [https://docs.python.org/3/reference/datamodel.html](https://docs.python.org/3/reference/datamodel.html)
+Python Software Foundation. (n.d.). _The Python Language Reference_. Python Documentation. Retrieved 1 August 2026, from [https://docs.python.org/3/reference/index.html](https://docs.python.org/3/reference/index.html)
 
 Haskell. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Haskell&oldid=1364608049](https://en.wikipedia.org/w/index.php?title=Haskell&oldid=1364608049)
 
