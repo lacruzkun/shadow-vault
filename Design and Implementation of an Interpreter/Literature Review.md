@@ -8,18 +8,18 @@ Rust uses a strict compiler that enforces memory ownership at compile time and i
 
 Python uses an interpreter that is very flexible, infact too flexible for my liking and it pays that price with memory and execution speed. Variables are stored as a struct that has a pointer to the actual values doing so a variable can store arbitrary data and change data midway through the program (Python Software Foundation, n.d.), now this makes the fetching of variables slow but i think it also hinders a beginner learning because it forces the beginner to track the data type of a variable at different point. Also it's usually a bad practice to change the data type of a variable midway, so unless told a beginner is bound to be confused and make a mistake. But the thing i like about python is it's expressiveness and simplicity, the interpreter of python is so expressive that it can handle different paradigms ("Python (Programming Language)", 2026), and i think imperative and functional paradigms are the most essential ways of thinking a beginner should master to lay down the blocks for future learning.
 
-The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as Glossary:  [[Generalized Algebraic Data Types]] (GADT) and also lazy evaluation ("Haskell", 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.). most compilers and interpreters of functional programming languages use lazy evaluation, lazy evaluation is hard to implement with imperative features like exception handling and input/output because the order of operations becomes indeterminate (Karachalias et al., 2015).
+The Glasgow Haskell Compiler (GHC) is both an interpreter and native-code compiler, it has features such as [[Generalized Algebraic Data Types]] (GADT) and also lazy evaluation ("Haskell", 2026). The whole concept of lazy evaluation is gotten from two intuitive ideas: Perform an evaluation step only when it is necessary; Never perform the same step twice (HaskellWiki, n.d.). most compilers and interpreters of functional programming languages use lazy evaluation, lazy evaluation is hard to implement with imperative features like exception handling and input/output because the order of operations becomes indeterminate (HaskellWiki, n.d.).
 
 Lua like most interpreters uses a byte code VM. But Lua is very minimal using only around 38 opcodes for the VM (Man, 2006). Its simplicity is what makes it a joy to use, although i'd rather it had a little bit of a simple type system at the least.
 
-OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt (Whitington, 2013). Ocaml uses Glossary: Hindley-Milner style type inference which means you almost never write a type explicitly but it's still statically analysed and strictly enforced. The compiler/interpreter also warns when a match on an Glossary: Algebraic Data Type (ADT) is not exhaustive. I like the strictness of the type system of OCaml it makes it so every variable type is known at compile time, although ADT are another matter of their own.
+OCaml can be compiled into bytecode and then interpreted by ocamlrun or it can be compiled down to native code by the compiler ocamlopt (Whitington, 2013). Ocaml uses Hindley-Milner style type inference which means you almost never write a type explicitly but it's still statically analysed and strictly enforced. The compiler/interpreter also warns when a match on an Algebraic Data Type (ADT) is not exhaustive. I like the strictness of the type system of OCaml it makes it so every variable type is known at compile time, although ADT are another matter of their own.
 
 Lisp is a broad term having many flavours, but i'm going to focus on the general idea every lisp implements. Lisp has a tiny set of primitives like lua, but unlike lua which uses minimal opcode (Low level VM instructions) to represent users source code, Lisp's primitives are language-level building blocks used by the programmer to builds everything (McCarthy, 1960). Lisp is a very mathematical model centric language (McCarthy, 1960) and is used as a formalism for computation. It has a manageable interpreter that is self hosted. Lisp has a fascinating property where data is code, and code is data (McCarthy, 1960).
 
 JS runtime is a complex system, using most of mordern infrastructure and research to make the most out of the CPU in terms of performance (V8, n.d.). Because of its complexity it isn't just an interpreter or a compiler it uses different methods at different point of the execution pipeline. The first phase is the Ignition phase, here it's purely interpreted. Next is the TurboFan phase if a function gets called a lot (hot spot) it's  compiled to native code and then called instead of being interpreted every time (V8, n.d.). While the execution is quite fascinating, i'm afraid it's too complicated for what we are going for.
 
 
-## Cross cutting challenges interpreters face
+## Common Challenges Interpreters Face
 
 ### Performance vs. Simplicity
 Each language tries to tackle the problem of performance and simplicity from different angles. Some accept a strict tradeoff, while others try to get both by shifting the cost to either a build time choice or to runtime adaptivity.
@@ -98,7 +98,7 @@ Unlike Lisp, where a small set of primitives are provided and programmers build 
 
 However, Licht will not attempt to replicate Rust's complete compile-time safety model. Features such as ownership checking, borrow checking, and deep memory-safety enforcement introduce significant complexity and are outside the scope of a minimal educational interpreter. The goal is to adopt Rust's principle of providing clear and predictable rules without taking on the full complexity of a systems programming language.
 
-### Feature Set Design Response
+### Feature Set Design
 
 Based on the Feature Completeness analysis, Licht will implement a focused set of language features that provide essential programming capabilities while avoiding unnecessary complexity. The feature set is designed around the goal of maintaining a minimal, clear, and manageable educational interpreter.
 
@@ -109,7 +109,38 @@ Licht will intentionally exclude lambda functions, comprehensions, and complex i
 The final feature set prioritises usability and simplicity over feature completeness. By including fundamental constructs directly while avoiding unnecessary abstractions, Licht provides enough functionality for practical programs while remaining aligned with the project's objective of creating a minimal and manageable educational interpreter.
 
 ## Glossary
+**Generalized Algebraic Data Type (GADT)**  
+A more expressive form of Algebraic Data Type where each constructor can specify a more precise return type. GADTs allow a type system to represent additional relationships between data structures and their possible values, enabling stronger compile-time guarantees.
 
+**Hindley-Milner style type inference**  
+A type inference system that automatically determines the types of expressions without requiring explicit type annotations. It analyses how values are used throughout a program and assigns consistent types while still providing static type checking.
+
+**Algebraic Data Type (ADT)**  
+A composite data type formed by combining simpler types through either a choice between different variants (sum types) or a collection of values together (product types). ADTs allow programmers to model structured data with a fixed set of possible forms.
+
+**Bytecode**  
+An intermediate representation of a program designed to be executed by a virtual machine rather than directly by the computer's hardware. Bytecode provides a balance between portability and execution efficiency by separating the language implementation from the target machine.
+
+**Tree-walking interpreter**  
+An interpreter that executes a program by directly traversing its Abstract Syntax Tree (AST). Instead of converting the program into another representation such as bytecode or native machine code, the evaluator processes each node of the tree according to its meaning.
+
+**JIT (Just-In-Time) compilation**  
+A compilation technique where parts of a program are compiled into native machine code during execution rather than before the program starts. JIT systems typically identify frequently executed code and optimise it at runtime to improve performance.
+
+**Pattern matching**  
+A mechanism for selecting behaviour based on the structure of a value. Instead of only checking conditions, pattern matching allows a program to describe the expected shape of data and execute the corresponding branch.
+
+**Exhaustiveness / exhaustive matching**  
+The property that all possible cases of a value are handled by a pattern match. An exhaustive match ensures that no possible input can reach an undefined case, allowing the compiler or interpreter to detect missing cases.
+
+**First-class values/functions**  
+A feature where values, including functions, can be treated like any other value in a language. They can be stored in variables, passed as arguments, returned from other functions, and used in expressions.
+
+**Closure**  
+A function that retains access to variables from the environment where it was created, even after that environment would normally no longer exist. Closures allow functions to capture and use external state.
+
+**Homoiconicity**  
+A property of a programming language where the program's structure is represented using the same data structures used by the language itself. This means code can be manipulated as data, allowing programs to generate and transform other programs directly.
 
 ## References
 Klabnik, Steve. _The Rust Programming Language, 2nd Edition_. With Carol Nichols. No Starch Press, 2023.
@@ -120,9 +151,7 @@ Haskell. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Has
 
 HaskellWiki. (n.d.). _Haskell lazy evaluation_. Retrieved 25 July 2026, from [https://wiki.haskell.org/Lazy_evaluation](https://wiki.haskell.org/Lazy_evaluation)
 
-Lazy evaluation. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Lazy_evaluation&oldid=1353732111](https://en.wikipedia.org/w/index.php?title=Lazy_evaluation&oldid=1353732111)
-
-Kein-Hong Man. (2006). _A no-frills introduction to Lua 5.1 VM instructions (Version 0.1)_. Internet Archive. [https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions](https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions)
+Man, K.-H. (2006). _A no-frills introduction to Lua 5.1 VM instructions (Version 0.1)_. Internet Archive. [https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions](https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions)
 
 Python (programming language). (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1365917903](https://en.wikipedia.org/w/index.php?title=Python_\(programming_language\)&oldid=1365917903)
 
@@ -141,5 +170,6 @@ Steele, G. L. (1990). _COMMON LISP: The language_ (2nd ed). Digital Press.
 
 Node.js. (n.d.). _File system_. Retrieved 2 August 2026, from [https://nodejs.org/api/fs.html](https://nodejs.org/api/fs.html)
 
+_Lua 5.4 Reference Manual_. (n.d.). Retrieved 21 July 2026, from [https://www.lua.org/manual/5.4/manual.html](https://www.lua.org/manual/5.4/manual.html)
 
 #interpreter #computer-science #programming
