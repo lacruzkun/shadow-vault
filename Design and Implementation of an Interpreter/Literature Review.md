@@ -80,29 +80,17 @@ To achieve this, Licht will use a separate type-checking pass that traverses the
 For type declarations, Licht will use a hybrid approach. Function parameters and return types will require explicit annotations, allowing the programmer to clearly define the expected interface of functions. However, local variables will use type inference, where their types are determined directly from their assigned values. This approach aims to balance the strictness of statically typed languages such as OCaml with the simplicity expected from a minimal educational interpreter, reducing unnecessary annotation while still maintaining predictable type behaviour.
 
 
+### Execution Model Design
+
+Licht will use a tree-walking interpreter design, where the source code is first converted into an Abstract Syntax Tree (AST) through parsing, and the same AST is then directly traversed by the interpreter during execution. Unlike bytecode-based interpreters such as Lua, Licht will not introduce an intermediate bytecode representation, and unlike systems such as Rust or JavaScript runtimes, it will not compile programs into native machine code.
+
+The interpreter will perform two separate passes over the AST. The first pass will be a type-checking phase, where the AST is analysed to verify that operations and function interactions are type-safe before execution begins. After the program passes this stage, a second evaluation pass will walk through the AST and execute the program. Separating these responsibilities keeps the implementation easier to understand while ensuring that type errors are detected before runtime.
+
+As established in the Performance vs. Simplicity section, Licht prioritises implementation simplicity and manageability over maximum execution speed. Although approaches such as Lua's bytecode virtual machine and JavaScript's multi-tier runtime provide significant performance improvements, they introduce additional complexity that is unnecessary for a minimal educational interpreter. Since the goal of Licht is to provide a clear and understandable implementation, a tree-walking interpreter provides a better balance between functionality and maintainability.
 
 
 
 
-Performance and Simplicity
-For a minimal, educational interpreter, going for simplicity seems most appropriate because it would be easier to demonstrate features and easier for beginners to wrap their heads around; while going for highest performance possible would likely add complexity that works against being manageable and minimal. Tree walking interpreter.
-Type Error timing
-Licht uses **Function parameters and return types**: explicit annotations required
-**Local variables**: type inferred directly from their assigned value at declaration — no annotation needed, but still checked for consistency afterward
-Syntax and Complexity
-I'm leaning toward Rust's approach, but not fully. The interpreter's implementation will take on more of the burden than Lisp's bare-minimum primitives, giving the programmer built-in conveniences rather than requiring them to construct everything themselves, without going as far as Rust's full compile-time enforcement, which is beyond the scope of a minimal educational interpreter.
-Feature Completeness
-Based on the comparison of the selected programming languages, the proposed interpreter will implement only the features considered essential to usability while omitting those whose complexity outweighs their benefits in a beginner-oriented language.
-
-Although lambda functions are a common feature in modern programming languages such as Python, Haskell, Rust, and OCaml, they are not essential for writing simple programs. Since the interpreter is intended to remain minimal and easy to understand, lambda functions will not be included in the initial implementation. This decision also avoids the additional implementation complexity associated with anonymous functions and closures.
-
-Conditionals, however, are fundamental to expressing program logic. Despite the differences in their implementation across the surveyed languages, every language examined provides some mechanism for conditional execution. Consequently, conditional expressions will be included in the interpreter as a core language feature.
-
-The `map()` and `filter()` operations provide a concise and expressive way of transforming and selecting data, and their implementations are relatively straightforward compared to other higher-order language features. Since named functions can be passed as arguments in the same way as any other value, `map` and `filter` remain usable without requiring anonymous function syntax such as lambdas. Therefore, these operations will be included in the interpreter. Since comprehensions only provide an alternative syntax for expressing `map` and `filter` operations, they do not introduce additional functionality and will not be implemented.
-
-The comparison of iteration mechanisms revealed several approaches, including Python's iterator protocol, Lua's iterator functions, Rust's `Iterator` trait, and Haskell's recursive traversal of lazy lists. While Rust's iterator model is powerful and enables efficient lazy evaluation, it also introduces additional complexity. For a minimal interpreter, simple looping constructs are sufficient, making a dedicated iterator abstraction unnecessary in the initial implementation.
-
-Finally, file input and output will be included because it is a fundamental capability of practical programming languages. Without file I/O, programs cannot persist data or interact with external files, significantly limiting the usefulness of the interpreter beyond small demonstration programs.
 ## Glossary
 
 
