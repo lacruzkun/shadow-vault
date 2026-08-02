@@ -88,8 +88,25 @@ The interpreter will perform two separate passes over the AST. The first pass wi
 
 As established in the Performance vs. Simplicity section, Licht prioritises implementation simplicity and manageability over maximum execution speed. Although approaches such as Lua's bytecode virtual machine and JavaScript's multi-tier runtime provide significant performance improvements, they introduce additional complexity that is unnecessary for a minimal educational interpreter. Since the goal of Licht is to provide a clear and understandable implementation, a tree-walking interpreter provides a better balance between functionality and maintainability.
 
+### Language Complexity Design
 
+Licht will follow an approach closer to Rust's philosophy of placing more responsibility on the language implementation to provide clear rules for the programmer, but without adopting Rust's full level of strictness. As discussed in the Syntax and Complexity section, this approach provides a more predictable programming experience while avoiding the complexity required by a production systems language.
 
+The type-checking system designed for Licht is the clearest example of this principle. Rather than allowing type-related errors to appear during execution as in dynamically typed languages such as Python, Licht performs a separate type-checking pass before evaluation begins. This places more complexity on the interpreter implementation but provides the programmer with earlier and clearer feedback.
+
+Unlike Lisp, where a small set of primitives are provided and programmers build more complex behaviour themselves, Licht will provide common language constructs directly. Features such as conditionals, basic arithmetic operators, and other essential operations will be built into the language rather than requiring users to construct them from lower-level primitives. This keeps the language approachable for beginners while still maintaining a manageable interpreter design.
+
+However, Licht will not attempt to replicate Rust's complete compile-time safety model. Features such as ownership checking, borrow checking, and deep memory-safety enforcement introduce significant complexity and are outside the scope of a minimal educational interpreter. The goal is to adopt Rust's principle of providing clear and predictable rules without taking on the full complexity of a systems programming language.
+
+### Feature Set Design Response
+
+Based on the Feature Completeness analysis, Licht will implement a focused set of language features that provide essential programming capabilities while avoiding unnecessary complexity. The feature set is designed around the goal of maintaining a minimal, clear, and manageable educational interpreter.
+
+Licht will include conditional expressions, named functions as first-class values, `map()` and `filter()` operations, simple iteration through basic looping constructs, and file input/output. Named functions will be sufficient to support higher-order operations such as `map()` and `filter()` without introducing the additional complexity of anonymous functions and closures.
+
+Licht will intentionally exclude lambda functions, comprehensions, and complex iterator abstractions. Lambda functions and comprehensions provide alternative syntax rather than essential functionality, while advanced iterator systems such as Rust's trait-based iterator model or generator systems introduce additional implementation complexity that is unnecessary for the intended scope of the interpreter.
+
+The final feature set prioritises usability and simplicity over feature completeness. By including fundamental constructs directly while avoiding unnecessary abstractions, Licht provides enough functionality for practical programs while remaining aligned with the project's objective of creating a minimal and manageable educational interpreter.
 
 ## Glossary
 
