@@ -56,12 +56,38 @@ Comprehension: While `map` and `filter` define the underlying operations, compre
 
 Iteration: Iteration is the process of traversing the elements of a collection, allowing each element to be processed sequentially. Python supports iteration through the `for` loop, which relies on the iterator protocol, where an object defines `__iter__()` to return an iterator and `__next__()` to produce each successive element, and also provides generators through the `yield` keyword for lazy iteration (Python Software Foundation, n.d.). Lua supports iteration using numeric `for` loops as well as generic `for` loops  with iterator functions `ipairs()` for sequential numeric indices and `pairs()` for all key-value pairs in a table (_Lua 5.4 Reference Manual_, n.d.). Rust performs iteration through the `Iterator` trait, where the `next()` method produces one element at a time, making iterator operations lazy by default and enabling efficient method chaining (Klabnik, 2023). Unlike these languages, Haskell does not rely on imperative loop constructs for iteration; instead, iteration is typically expressed through recursion over lists, which may be finite or infinite due to Haskell's lazy evaluation (Marlow, 2010).
 
+Based on the comparison of the selected programming languages, the proposed interpreter will implement only the features considered essential to usability while omitting those whose complexity outweighs their benefits in a beginner-oriented language.
+
+Although lambda functions are a common feature in modern programming languages such as Python, Haskell, Rust, and OCaml, they are not essential for writing simple programs. Since the interpreter is intended to remain minimal and easy to understand, lambda functions will not be included in the initial implementation. This decision also avoids the additional implementation complexity associated with anonymous functions and closures.
+
+Conditionals, however, are fundamental to expressing program logic. Despite the differences in their implementation across the surveyed languages, every language examined provides some mechanism for conditional execution. Consequently, conditional expressions will be included in the interpreter as a core language feature.
+
+The `map()` and `filter()` operations provide a concise and expressive way of transforming and selecting data, and their implementations are relatively straightforward compared to other higher-order language features. Since named functions can be passed as arguments in the same way as any other value, `map` and `filter` remain usable without requiring anonymous function syntax such as lambdas. Therefore, these operations will be included in the interpreter. Since comprehensions only provide an alternative syntax for expressing `map` and `filter` operations, they do not introduce additional functionality and will not be implemented.
+
+The comparison of iteration mechanisms revealed several approaches, including Python's iterator protocol, Lua's iterator functions, Rust's `Iterator` trait, and Haskell's recursive traversal of lazy lists. While Rust's iterator model is powerful and enables efficient lazy evaluation, it also introduces additional complexity. For a minimal interpreter, simple looping constructs are sufficient, making a dedicated iterator abstraction unnecessary in the initial implementation.
+
+Finally, file input and output will be included because it is a fundamental capability of practical programming languages. Without file I/O, programs cannot persist data or interact with external files, significantly limiting the usefulness of the interpreter beyond small demonstration programs.
 
 
+## Design Response
+Performance and Simplicity
+For a minimal, educational interpreter, going for simplicity seems most appropriate because it would be easier to demonstrate features and easier for beginners to wrap their heads around; while going for highest performance possible would likely add complexity that works against being manageable and minimal. Tree walking interpreter.
+Type Error timing
+For a minimal, beginner-oriented interpreter, catching errors early seems more appropriate, because it teaches the beginner how the system works from the start. While a loose type system might allow for more exploration, it also risks encouraging bad habits, and can be frustrating in practice. An error might not surface until the specific part of the code that contains it actually runs, which becomes especially painful as a project grows in size. I'm leaning closer to OCaml's model than Rust's full strictness, given the scope of a minimal interpreter.
+Syntax and Complexity
+I'm leaning toward Rust's approach, but not fully. The interpreter's implementation will take on more of the burden than Lisp's bare-minimum primitives, giving the programmer built-in conveniences rather than requiring them to construct everything themselves, without going as far as Rust's full compile-time enforcement, which is beyond the scope of a minimal educational interpreter.
+Feature Completeness
+Based on the comparison of the selected programming languages, the proposed interpreter will implement only the features considered essential to usability while omitting those whose complexity outweighs their benefits in a beginner-oriented language.
 
+Although lambda functions are a common feature in modern programming languages such as Python, Haskell, Rust, and OCaml, they are not essential for writing simple programs. Since the interpreter is intended to remain minimal and easy to understand, lambda functions will not be included in the initial implementation. This decision also avoids the additional implementation complexity associated with anonymous functions and closures.
 
+Conditionals, however, are fundamental to expressing program logic. Despite the differences in their implementation across the surveyed languages, every language examined provides some mechanism for conditional execution. Consequently, conditional expressions will be included in the interpreter as a core language feature.
 
+The `map()` and `filter()` operations provide a concise and expressive way of transforming and selecting data, and their implementations are relatively straightforward compared to other higher-order language features. Since named functions can be passed as arguments in the same way as any other value, `map` and `filter` remain usable without requiring anonymous function syntax such as lambdas. Therefore, these operations will be included in the interpreter. Since comprehensions only provide an alternative syntax for expressing `map` and `filter` operations, they do not introduce additional functionality and will not be implemented.
 
+The comparison of iteration mechanisms revealed several approaches, including Python's iterator protocol, Lua's iterator functions, Rust's `Iterator` trait, and Haskell's recursive traversal of lazy lists. While Rust's iterator model is powerful and enables efficient lazy evaluation, it also introduces additional complexity. For a minimal interpreter, simple looping constructs are sufficient, making a dedicated iterator abstraction unnecessary in the initial implementation.
+
+Finally, file input and output will be included because it is a fundamental capability of practical programming languages. Without file I/O, programs cannot persist data or interact with external files, significantly limiting the usefulness of the interpreter beyond small demonstration programs.
 ## Glossary
 
 
