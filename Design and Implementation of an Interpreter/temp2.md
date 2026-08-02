@@ -1,4 +1,3 @@
-
 ## Introduction
 This section is dedicated to reviewing how programming languages are implemented and executed. Existing implenmetations are too complex for what a minimal educational interpreter needs, since most are compiled or hybrid systems with architecture beyond what a lightweight interpreter requires. I will be looking into different execution implementations across different paradigms such as Rust, Haskell, Lisp, Python, Lua, OCaml and JavaScript runtimes. I'll look at their implementation approaches, common challenges they raise, before discussing how these inform my own design.
 
@@ -67,74 +66,3 @@ The `map()` and `filter()` operations provide a concise and expressive way of tr
 The comparison of iteration mechanisms revealed several approaches, including Python's iterator protocol, Lua's iterator functions, Rust's `Iterator` trait, and Haskell's recursive traversal of lazy lists. While Rust's iterator model is powerful and enables efficient lazy evaluation, it also introduces additional complexity. For a minimal interpreter, simple looping constructs are sufficient, making a dedicated iterator abstraction unnecessary in the initial implementation.
 
 Finally, file input and output will be included because it is a fundamental capability of practical programming languages. Without file I/O, programs cannot persist data or interact with external files, significantly limiting the usefulness of the interpreter beyond small demonstration programs.
-
-
-## Design Response
-
-### Type Checking Design
-
-Licht will use a lightweight static type-checking approach where type errors are detected before program execution begins, following a model closer to OCaml than Python. As established in the Type-Error Timing section, catching errors early was judged worth the additional implementation cost because it provides clearer feedback to beginners and prevents errors from appearing unpredictably during execution.
-
-To achieve this, Licht will use a separate type-checking pass that traverses the Abstract Syntax Tree (AST) before evaluation begins. During this pass, the interpreter will verify that operations are performed on compatible types and that function calls receive and return the expected types. If a type error is detected, execution will stop before the program is evaluated.
-
-For type declarations, Licht will use a hybrid approach. Function parameters and return types will require explicit annotations, allowing the programmer to clearly define the expected interface of functions. However, local variables will use type inference, where their types are determined directly from their assigned values. This approach aims to balance the strictness of statically typed languages such as OCaml with the simplicity expected from a minimal educational interpreter, reducing unnecessary annotation while still maintaining predictable type behaviour.
-
-
-
-
-
-
-Performance and Simplicity
-For a minimal, educational interpreter, going for simplicity seems most appropriate because it would be easier to demonstrate features and easier for beginners to wrap their heads around; while going for highest performance possible would likely add complexity that works against being manageable and minimal. Tree walking interpreter.
-Type Error timing
-Licht uses **Function parameters and return types**: explicit annotations required
-**Local variables**: type inferred directly from their assigned value at declaration — no annotation needed, but still checked for consistency afterward
-Syntax and Complexity
-I'm leaning toward Rust's approach, but not fully. The interpreter's implementation will take on more of the burden than Lisp's bare-minimum primitives, giving the programmer built-in conveniences rather than requiring them to construct everything themselves, without going as far as Rust's full compile-time enforcement, which is beyond the scope of a minimal educational interpreter.
-Feature Completeness
-Based on the comparison of the selected programming languages, the proposed interpreter will implement only the features considered essential to usability while omitting those whose complexity outweighs their benefits in a beginner-oriented language.
-
-Although lambda functions are a common feature in modern programming languages such as Python, Haskell, Rust, and OCaml, they are not essential for writing simple programs. Since the interpreter is intended to remain minimal and easy to understand, lambda functions will not be included in the initial implementation. This decision also avoids the additional implementation complexity associated with anonymous functions and closures.
-
-Conditionals, however, are fundamental to expressing program logic. Despite the differences in their implementation across the surveyed languages, every language examined provides some mechanism for conditional execution. Consequently, conditional expressions will be included in the interpreter as a core language feature.
-
-The `map()` and `filter()` operations provide a concise and expressive way of transforming and selecting data, and their implementations are relatively straightforward compared to other higher-order language features. Since named functions can be passed as arguments in the same way as any other value, `map` and `filter` remain usable without requiring anonymous function syntax such as lambdas. Therefore, these operations will be included in the interpreter. Since comprehensions only provide an alternative syntax for expressing `map` and `filter` operations, they do not introduce additional functionality and will not be implemented.
-
-The comparison of iteration mechanisms revealed several approaches, including Python's iterator protocol, Lua's iterator functions, Rust's `Iterator` trait, and Haskell's recursive traversal of lazy lists. While Rust's iterator model is powerful and enables efficient lazy evaluation, it also introduces additional complexity. For a minimal interpreter, simple looping constructs are sufficient, making a dedicated iterator abstraction unnecessary in the initial implementation.
-
-Finally, file input and output will be included because it is a fundamental capability of practical programming languages. Without file I/O, programs cannot persist data or interact with external files, significantly limiting the usefulness of the interpreter beyond small demonstration programs.
-## Glossary
-
-
-## References
-Klabnik, Steve. _The Rust Programming Language, 2nd Edition_. With Carol Nichols. No Starch Press, 2023.
-
-Python Software Foundation. (n.d.). _The Python Language Reference_. Python Documentation. Retrieved 1 August 2026, from [https://docs.python.org/3/reference/index.html](https://docs.python.org/3/reference/index.html)
-
-Haskell. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Haskell&oldid=1364608049](https://en.wikipedia.org/w/index.php?title=Haskell&oldid=1364608049)
-
-HaskellWiki. (n.d.). _Haskell lazy evaluation_. Retrieved 25 July 2026, from [https://wiki.haskell.org/Lazy_evaluation](https://wiki.haskell.org/Lazy_evaluation)
-
-Lazy evaluation. (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Lazy_evaluation&oldid=1353732111](https://en.wikipedia.org/w/index.php?title=Lazy_evaluation&oldid=1353732111)
-
-Kein-Hong Man. (2006). _A no-frills introduction to Lua 5.1 VM instructions (Version 0.1)_. Internet Archive. [https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions](https://archive.org/details/a-no-frills-intro-to-lua-5.1-vm-instructions)
-
-Python (programming language). (2026). In _Wikipedia_. [https://en.wikipedia.org/w/index.php?title=Python_(programming_language)&oldid=1365917903](https://en.wikipedia.org/w/index.php?title=Python_\(programming_language\)&oldid=1365917903)
-
-Whitington, J. (2013). _OCaml from the very beginning_. Coherent Press.
-
-McCarthy, J. (1960). Recursive functions of symbolic expressions and their computation by machine, Part I. _Communications of the ACM_, _3_(4), 184–195. [https://doi.org/10.1145/367177.367199](https://doi.org/10.1145/367177.367199)
-
-V8. (n.d.). _V8 Javascript Engine Documentation_. Retrieved 21 July 2026, from [https://v8.dev/docs](https://v8.dev/docs)
-Karachalias, G., Schrijvers, T., Vytiniotis, D., & Jones, S. P. (2015). GADTs meet their match: Pattern-matching warnings that account for GADTs, guards, and laziness. _Proceedings of the 20th ACM SIGPLAN International Conference on Functional Programming_, 424–436. [https://doi.org/10.1145/2784731.2784748](https://doi.org/10.1145/2784731.2784748)
-
-Leroy, X., Doligez, D., Frisch, A., Garrigue, J., Rémy, D., Sivaramakrishnan, K., & Vouillon, J. (2026). _The OCaml system_. [https://ocaml.org/manual/5.5/ocaml-5.5-refman.pdf](https://ocaml.org/manual/5.5/ocaml-5.5-refman.pdf)
-
-Marlow, S. (Ed.). (2010). _Haskell 2010 Language Report_. [https://www.haskell.org/definition/haskell2010.pdf](https://www.haskell.org/definition/haskell2010.pdf)
-
-Steele, G. L. (1990). _COMMON LISP: The language_ (2nd ed). Digital Press.
-
-Node.js. (n.d.). _File system_. Retrieved 2 August 2026, from [https://nodejs.org/api/fs.html](https://nodejs.org/api/fs.html)
-
-
-#interpreter #computer-science #programming
