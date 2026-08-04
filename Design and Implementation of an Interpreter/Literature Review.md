@@ -71,6 +71,7 @@ Finally, file input and output will be included because it is a fundamental capa
 
 ## Design Response
 
+Drawing on the findings of the preceding review, the proposed educational programming language and its reference interpreter will be called Licht, the German word for "light". The name reflects the primary aim of the project: to provide a lightweight, beginner-oriented language whose design prioritizes clarity, simplicity, and ease of understanding over feature completeness or maximum performance. The following sections describe the design decisions that define Licht, showing how the lessons learned from existing programming languages and interpreter implementations have been applied to produce a minimal yet practical system.
 ### Type Checking Design
 
 Licht will use a lightweight static type-checking approach where type errors are detected before program execution begins, following a model closer to OCaml than Python. As established in the Type-Error Timing section, catching errors early was judged worth the additional implementation cost because it provides clearer feedback to beginners and prevents errors from appearing unpredictably during execution.
