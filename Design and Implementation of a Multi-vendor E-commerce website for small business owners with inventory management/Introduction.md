@@ -35,11 +35,13 @@ This study covers the design and implementation of a web-based multi-vendor e-co
 
 The system allows customers to create accounts, browse and search for products from multiple vendors, manage shopping carts, make online payments, place orders, and track the status of their orders.
 
-Approved vendors can manage their products through a dedicated dashboard by adding, editing, deleting, and updating product information and inventory. The inventory management module automatically adjusts stock levels after successful purchases and generates low-stock alerts to assist vendors in monitoring product availability.
+Approved vendors can manage their products through a dedicated dashboard by adding, editing, deleting, and updating product information and inventory. Vendors are also able to process customer orders by confirming, preparing, and updating orders up to the dispatch stage. The inventory management module automatically adjusts stock levels after successful purchases and generates low-stock alerts to assist vendors in monitoring product availability.
 
-The administrative module enables the administrator to approve vendor registrations, manage users and products, monitor activities on the platform, resolve disputes between customers and vendors, and oversee order processing and delivery status updates.
+The administrative module enables the administrator to approve vendor registrations, manage users and products, monitor activities on the platform, resolve disputes between customers and vendors, and oversee delivery status updates from dispatch until order completion.
 
-The system also provides order management, delivery tracking, and notification services that keep customers and vendors informed of important events such as payment confirmations and changes in order status.
+The system also provides a notification service that keeps customers and vendors informed of important events, including payment confirmations and changes in order status.
+
+The implementation of the system is limited to transactions conducted in Nigerian Naira (₦) using a supported online payment gateway.
 
 ## Limitations of the Study
 
