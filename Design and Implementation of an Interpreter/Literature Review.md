@@ -174,4 +174,4 @@ Node.js. (n.d.). _File system_. Retrieved 2 August 2026, from [https://nodejs.or
 
 _Lua 5.4 Reference Manual_. (n.d.). Retrieved 21 July 2026, from [https://www.lua.org/manual/5.4/manual.html](https://www.lua.org/manual/5.4/manual.html)
 
-#interpreter #computer-science #programming
+#interpreter #computer-science #programming #compiler 
