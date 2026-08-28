@@ -1,21 +1,3 @@
-- **2.1 Concept of Electronic Commerce**
-- **2.2 Multi-Vendor E-commerce Systems**
-- **2.3 Inventory Management Systems**
-- **2.4 Small and Medium Enterprises (SMEs)**
-- **2.5 E-commerce Adoption Challenges in Rural Communities**
-- **2.6 Review of Existing Systems**
-- **2.7 Research Gap**
-
-
-
-# Literature Review
-
-## Understanding of the Project
-
-The project is a **web-based multi-vendor e-commerce platform targeted at small business owners in Nigeria**, with integrated inventory management. Its stated aim is to provide small businesses with a shared digital marketplace through which products can be marketed and managed, while customers receive a secure and convenient online shopping experience. The objectives cover role-based customer, vendor, and administrator accounts; administrator-led vendor approval and platform oversight; vendor product and inventory management; a customer marketplace with search, browsing, multi-vendor cart and checkout; electronic payment; automatic stock updates and low-stock alerts; and notifications for important transaction events. The scope is explicitly limited to a responsive web platform rather than a native mobile application, and it excludes automated vendor payouts, advanced warehouse or multi-branch inventory systems, sophisticated analytics, loyalty programmes, and physical delivery logistics.
-
-Inspection of the supplied codebase shows that these aims have been translated into a modular Flask application using SQLAlchemy, Flask-Login and Flask-WTF, with separate application areas for authentication, customers, vendors, administrators, payments and notifications. The implementation further includes a service layer for order, payment, vendor and dispute operations; relational entities for users, roles, products, categories, carts, orders, vendor orders, payments, inventory transactions, notifications and disputes; Flutterwave integration with server-side transaction verification; atomic stock reduction after successful payment; multi-vendor order splitting; low-stock alerts; and a JavaScript navigation layer designed to replace page content without full browser reloads. Product-category relationships also support multiple categories per product, consistent with the evolving requirements of the system.
-
 ## Multi-vendor e-commerce as a platform for small businesses
 
 Understanding what the project sets out to achieve requires first situating it within the wider shift in how online commerce is structured. The emergence of electronic marketplaces has changed e-commerce from a model in which a single retailer controls the product catalogue into platform-based arrangements in which multiple independent sellers can interact with a shared customer base [Citation needed]. This distinction is particularly important for the present project because its purpose is not merely to digitise an individual shop, but to provide a common marketplace through which multiple small businesses can reach customers. Multi-sided platform research conceptualises such systems around the coordination of separate participant groups, typically buyers and sellers, while recognising the organisational and economic trade-offs created by allowing independent providers to participate in a shared environment (Hagiu & Wright, 2015).
@@ -28,7 +10,7 @@ The literature, however, also reveals a limitation in treating marketplace gover
 
 ## Trust, security and role-based access in online marketplaces
 
-Governance mechanisms such as vendor approval only address part of what makes a marketplace viable; the other, arguably more decisive, factor is whether customers and vendors trust the platform enough to transact on it at all. Trust is one of the most persistent themes in e-commerce research because online transactions remove many forms of direct interpersonal reassurance available in physical commerce. Soleimani's (2021) systematic review of 129 e-commerce studies demonstrates that trust is a multidimensional phenomenon involving relationships among customers, sellers and platforms, rather than a single property of a website. The review associates trust with factors including website characteristics, security, reputation, perceived risk and institutional conditions. This perspective is particularly relevant to a multi-vendor marketplace because customers must place trust not only in individual sellers but also in the platform that mediates their interactions.
+Governance mechanisms such as vendor approval only address part of what makes a marketplace viable; the other, arguably more decisive, factor is whether customers and vendors trust the platform enough to transact on it at all [citation needed]. Trust is one of the most persistent themes in e-commerce research because online transactions remove many forms of direct interpersonal reassurance available in physical commerce. Soleimani's (2021) systematic review of 129 e-commerce studies demonstrates that trust is a multidimensional phenomenon involving relationships among customers, sellers and platforms, rather than a single property of a website. The review associates trust with factors including website characteristics, security, reputation, perceived risk and institutional conditions. This perspective is particularly relevant to a multi-vendor marketplace because customers must place trust not only in individual sellers but also in the platform that mediates their interactions.
 
 Earlier work likewise establishes that perceived usefulness and ease of use interact with trust in shaping online shopping behaviour. Gefen et al. (2003) found that trust is important alongside the Technology Acceptance Model's perceived usefulness and ease-of-use constructs, and identified safety mechanisms and a familiar, usable interface as contributors to trust. More recent meta-analytic evidence continues to support the importance of trust, perceived risk and perceived security in online purchasing decisions, with perceived risk affecting the relationship between trust and purchase behaviour (Handoyo, 2024).
 
@@ -70,7 +52,7 @@ The project deliberately stops short of advanced forecasting or optimisation alg
 
 ## Usability, responsive access and seamless interaction
 
-Even a system with sound governance, trustworthy security and reliable inventory tracking depends on whether customers and vendors can actually use it comfortably across devices. Security and functionality alone do not guarantee effective e-commerce adoption. Website quality and ease of use have repeatedly been connected to trust and purchase intentions, particularly in the Nigerian context. Responsive design is therefore a significant technical concern for the present project because the scope explicitly excludes a native mobile application while requiring effective use across mobile browsers and different screen sizes.
+Even a system with sound governance, trustworthy security and reliable inventory tracking depends on whether customers and vendors can actually use it comfortably across devices. Security and functionality alone do not guarantee effective e-commerce adoption. Website quality and ease of use have repeatedly been connected to trust and purchase intentions, particularly in the Nigerian context [citation needed]. Responsive design is therefore a significant technical concern for the present project because the scope explicitly excludes a native mobile application while requiring effective use across mobile browsers and different screen sizes.
 
 Research into responsive e-commerce design demonstrates that mobile users encounter usability challenges caused by differences in screen size and orientation, and that mobile-first usability practices can improve the overall user experience (Kumar, 2022). This provides a conceptual basis for the project's responsive interface rather than treating desktop presentation as the default and mobile presentation as an afterthought.
 
