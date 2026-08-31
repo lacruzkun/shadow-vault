@@ -2,9 +2,9 @@
 
 ## 3.1 Development Methodology
 
-The development of the Licht interpreter will follow an iterative and incremental methodology. An interpreter consists of several closely related components, including lexical analysis, parsing, abstract syntax tree construction, type checking, and evaluation (Nystrom, 2021). Developing all of these components at once would make it difficult to isolate faults and determine which part of the system is responsible for an error. An incremental approach therefore provides a more manageable method in which each major component can be implemented, tested, and refined before the next component is built on top of it.
+The development of the Licht interpreter will follow an iterative and incremental methodology. An interpreter consists of several closely related components, including lexical analysis, parsing, abstract syntax tree construction, type checking, and evaluation. Developing all of these components at once would make it difficult to isolate faults and determine which part of the system is responsible for an error. An incremental approach therefore provides a more manageable method in which each major component can be implemented, tested, and refined before the next component is built on top of it.
 
-The development process will begin with the lexical analyser, which will convert source code into a sequence of tokens (Nystrom, 2021). Once tokenisation is functioning correctly, the parser will be implemented to consume the tokens and construct an Abstract Syntax Tree (AST) (Nystrom, 2021). The type-checking component will then be implemented as a separate pass over the AST so that type errors can be identified before evaluation. Finally, the evaluator will traverse the verified AST and execute the program.
+The development process will begin with the lexical analyser, which will convert source code into a sequence of tokens. Once tokenisation is functioning correctly, the parser will be implemented to consume the tokens and construct an Abstract Syntax Tree (AST). The type-checking component will then be implemented as a separate pass over the AST so that type errors can be identified before evaluation. Finally, the evaluator will traverse the verified AST and execute the program.
 
 Each stage will be tested independently before being integrated with the preceding and following stages. For example, lexical analysis will be tested with valid and invalid source fragments before parsing is introduced. The parser will then be tested using token sequences representing expressions, declarations, functions, conditionals, and loops. The type checker will be tested using programs containing both valid and invalid type combinations, while the evaluator will be tested using ASTs that have already passed type checking. This incremental process allows errors to be isolated at the component in which they occur and reduces the complexity of debugging the complete interpreter.
 
@@ -36,9 +36,9 @@ The functional requirements describe the operations that the interpreter must su
 
 7. The system shall require explicit type annotations for function parameters and return types.
 
-8. The system shall support integer, float, Boolean, string, and collection values required by the proposed feature set.
+8. The system shall support integer, Boolean, string, and collection values required by the proposed feature set.
 
-9. The system shall support arithmetic, comparison, and logical operations required by the language.
+9. The system shall support arithmetic and comparison operations required by the language.
 
 10. The system shall support conditional expressions using `if` and `else`.
 
@@ -46,9 +46,9 @@ The functional requirements describe the operations that the interpreter must su
 
 12. The system shall support functions as first-class values so that named functions can be passed as arguments to other functions.
 
-13. The system shall support `map()` as a built-in higher-order operation for transforming collection elements using a function.
+13. The system shall support `map()` for transforming collection elements using a function.
 
-14. The system shall support `filter()` as a built-in higher-order operation for selecting collection elements according to a function.
+14. The system shall support `filter()` for selecting collection elements according to a function.
 
 15. The system shall support basic iteration through range-based looping constructs.
 
@@ -66,8 +66,7 @@ The functional requirements describe the operations that the interpreter must su
 
 22. The system shall execute a valid program and produce the expected output.
 
-The functional requirements deliberately exclude lambda functions, comprehensions, and complex iterator abstractions. Logical operators such as `&&`, `||`, and `!` and floating-point numbers are included because Boolean logic is a fundamental programming concept and can be implemented with a small, clearly defined extension to the expression grammar.
-
+The functional requirements deliberately exclude lambda functions, comprehensions, and complex iterator abstractions. These features were considered in Chapter Two but were excluded because they are not essential to the intended minimal feature set and would introduce additional implementation complexity.
 
 ### 3.2.2 Non-Functional Requirements
 
@@ -120,7 +119,7 @@ Type Checker
 
 ### 3.3.1 Source Code and Lexical Analysis
 
-The process begins with a source file containing Licht code. The lexical analyser reads the source character by character and groups the characters into meaningful lexical units called tokens. Examples include keywords such as `fn`, `let`, `if`, `else`, `for`, and `return`, identifiers such as variable and function names, literals such as integers, floats, strings, and Boolean values, operators such as `+`, `-`, `*`, `/`, `%`, `<`, `>`, `&&`, `||`, and `!`, and punctuation such as parentheses, brackets, braces, commas, colons, and semicolons.
+The process begins with a source file containing Licht code. The lexical analyser reads the source character by character and groups the characters into meaningful lexical units called tokens. Examples include keywords such as `fn`, `let`, `if`, `else`, `for`, and `return`, identifiers such as variable and function names, literals such as integers, strings, and Boolean values, operators such as `+`, `-`, `*`, `/`, `%`, `<`, and `>`, and punctuation such as parentheses, brackets, braces, commas, colons, and semicolons.
 
 The lexer is responsible only for recognising the lexical structure of the source program. It does not determine whether the resulting sequence forms a valid program. Invalid characters or malformed lexical elements are reported by the lexer before parsing proceeds.
 
@@ -134,7 +133,7 @@ The AST will be represented using Rust data structures, with enums used to disti
 
 ### 3.3.3 Type Checking
 
-After parsing, the AST is passed to the type checker. The type checker performs the first complete semantic analysis of the program. It determines whether expressions and statements are type-correct without executing the program (Pierce, 2002).
+After parsing, the AST is passed to the type checker. The type checker performs the first complete semantic analysis of the program. It determines whether expressions and statements are type-correct without executing the program.
 
 Function parameters and return types will use explicit annotations. For example:
 
@@ -149,14 +148,12 @@ The type checker will therefore know that `x` and `y` must be integers and that 
 ```licht
 let total = add(3, 4);
 let name = "Licht";
-let pi = 3.14159;
 let is_ready = true;
-let can_run = is_ready && pi > 3.0;
 ```
 
 The types of `total`, `name`, and `is_ready` are inferred from their assigned expressions.
 
-The type checker will maintain an environment containing the types associated with visible variables and functions. The language will not expose a general list type in explicit function parameter annotations; collection element types will instead be tracked internally by the type checker for the dedicated `map()` and `filter()` rules. When an expression refers to an identifier, its type is obtained from this environment. Function calls are checked by comparing the types of the supplied arguments with the declared parameter types. Operators are also checked to ensure that their operands have compatible types. When a type mismatch occurs, the type checker reports an error and the evaluator is not invoked.
+The type checker will maintain an environment containing the types associated with visible variables and functions. When an expression refers to an identifier, its type is obtained from this environment. Function calls are checked by comparing the types of the supplied arguments with the declared parameter types. Operators are also checked to ensure that their operands have compatible types. When a type mismatch occurs, the type checker reports an error and the evaluator is not invoked.
 
 ### 3.3.4 Evaluation
 
@@ -174,24 +171,22 @@ The lexer will be implemented as a hand-written scanner using Rust's standard li
 
 The token categories required by the proposed syntax include:
 
-| Category                 | Examples                                   |
-| ------------------------ | ------------------------------------------ |
-| Keywords                 | `fn`, `let`, `if`, `else`, `for`, `return` |
-| Identifiers              | `add`, `total`, `numbers`, `is_even`       |
-| Integer literals         | `0`, `3`, `10`, `42`                       |
-| Float literals           | `0.5`, `3.14`, `10.0`                      |
-| String literals          | `"Licht"`, `"data.txt"`                    |
-| Boolean literals         | `true`, `false`                            |
-| Arithmetic operators     | `+`, `-`, `*`, `/`, `%`                    |
-| Comparison operators     | `<`, `>`, `<=`, `>=`, `==`, `!=`           |
-| Logical operators        | `&&`,  `\|\|`, `!`                         |
-| Assignment/punctuation   | `=`, `:`, `,`, `;`                         |
-| Delimiters               | `(`, `)`, `[`, `]`, `{`, `}`               |
-| Function return operator | `->`                                       |
+| Category | Examples |
+|---|---|
+| Keywords | `fn`, `let`, `if`, `else`, `for`, `return` |
+| Identifiers | `add`, `total`, `numbers`, `is_even` |
+| Integer literals | `0`, `3`, `10`, `42` |
+| String literals | `"Licht"`, `"data.txt"` |
+| Boolean literals | `true`, `false` |
+| Arithmetic operators | `+`, `-`, `*`, `/`, `%` |
+| Comparison operators | `<`, `>`, `<=`, `>=`, `==`, `!=` |
+| Assignment/punctuation | `=`, `:`, `,`, `;` |
+| Delimiters | `(`, `)`, `[`, `]`, `{`, `}` |
+| Function return operator | `->` |
 
 Whitespace and comments will be recognised and discarded where appropriate so that they do not become part of the syntactic structure presented to the parser.
 
-The lexer must also distinguish between single-character operators and multi-character operators. For example, `=` and `==` have different meanings, as do `-` and `->`. The scanner therefore has to examine the following character when necessary before deciding which token to produce. This is particularly important for multi-character operators such as `==`, `!=`, `<=`, `>=`, `&&`, `||`, and `->`, while `!` remains a single-character logical operator when it is not followed by `=`.
+The lexer must also distinguish between single-character operators and multi-character operators. For example, `=` and `==` have different meanings, as do `-` and `->`. The scanner therefore has to examine the following character when necessary before deciding which token to produce.
 
 ### 3.4.2 Parser and Grammar Design
 
@@ -233,12 +228,11 @@ block          = "{" { statement } [ expression ] "}" ;
 
 expression     = assignment ;
 
-assignment     = logical_or
+assignment     = logical_expression
                | identifier "=" expression ;
 
-logical_or     = logical_and { "||" logical_and } ;
-
-logical_and    = comparison { "&&" comparison } ;
+logical_expression
+               = comparison ;
 
 comparison     = term { comparison_operator term } ;
 
@@ -246,29 +240,13 @@ term           = factor { ("+" | "-") factor } ;
 
 factor         = unary { ("*" | "/" | "%") unary } ;
 
-unary          = [ ("-" | "!") ] primary ;
+unary          = [ "-" ] primary ;
 
 primary        = literal
                | identifier
                | function_call
                | list_literal
                | "(" expression ")" ;
-
-literal        = integer_literal
-               | float_literal
-               | string_literal
-               | boolean_literal ;
-
-integer_literal
-               = digit { digit } ;
-
-float_literal  = digit { digit } "." digit { digit } ;
-
-string_literal = '"' { string_character } '"' ;
-
-boolean_literal
-               = "true"
-               | "false" ;
 
 function_call  = identifier "(" [ arguments ] ")" ;
 
@@ -277,14 +255,11 @@ arguments      = expression { "," expression } ;
 list_literal   = "[" [ arguments ] "]" ;
 
 type           = "int"
-               | "float"
                | "bool"
                | "string" ;
 ```
 
 The grammar is intended to describe the core syntax illustrated by the proposed sample program. As implementation progresses, additional productions may be introduced where required by the final language specification. The grammar will be kept deliberately small so that the parser remains understandable and the language avoids unnecessary syntactic complexity.
-
-Logical operators are included because Boolean composition is a fundamental part of program logic. The grammar gives `!` unary precedence over binary logical operators, while `&&` binds more tightly than `||`. This produces the conventional precedence relationship `!` > `&&` > `||` and allows compound conditions to be expressed without requiring excessive parentheses. Float literals require digits on both sides of the decimal point, which keeps lexical recognition unambiguous in the minimal grammar.
 
 The parser will construct AST nodes while recognising the grammar rather than creating an intermediate representation that has no later use. Expressions and statements will therefore be represented directly in forms required by the type checker and evaluator.
 
@@ -327,7 +302,7 @@ This structure supports pattern matching in both the type checker and evaluator.
 
 The type checker will perform a recursive traversal of the AST and determine the type produced by each expression. A type environment will store the known types of variables and functions within the current scope.
 
-For local declarations, the checker will first determine the type of the expression assigned to the variable and then associate that type with the variable name. Collection expressions will carry their element type internally, even though collection types are not part of the language's explicit `type` grammar. For example:
+For local declarations, the checker will first determine the type of the expression assigned to the variable and then associate that type with the variable name. For example:
 
 ```licht
 let total = add(3, 4);
@@ -337,9 +312,9 @@ After checking the call to `add`, the expression has type `int`, and the environ
 
 For function declarations, explicit parameter and return annotations provide the expected function signature. When a function body is checked, the parameter names are inserted into a function-local environment using their declared types. The type checker then verifies that the final function result is compatible with the declared return type.
 
-Conditional expressions will require the condition to have type `bool`. Their resulting branches will also be checked for compatible result types where the expression produces a value. Binary operators will similarly impose type requirements on their operands. For example, arithmetic operators will operate on numeric values, where integer and float operations follow the language's numeric rules, comparison operations will produce Boolean results, and logical operators `&&` and `||` will require Boolean operands. The unary `!` operator will require a Boolean operand and produce a Boolean result.
+Conditional expressions will require the condition to have type `bool`. Their resulting branches will also be checked for compatible result types where the expression produces a value. Binary operators will similarly impose type requirements on their operands. For example, arithmetic operators will operate on integer values, while comparison operations will produce Boolean results.
 
-Ordinary function calls will be checked by verifying the number and type of arguments against the corresponding function declaration. The built-in operations `map()` and `filter()` will instead have dedicated type-checking rules rather than ordinary user-defined function signatures. This avoids introducing a general parametric or generic type system while still allowing these operations to work across collections containing different element types. For `map()`, the type checker will verify that the first argument is a function whose parameter type matches the element type of the collection supplied as the second argument. The result is treated as a collection whose element type is the return type of the supplied function. For `filter()`, the supplied function must accept the collection's element type and return `bool`, while the resulting collection retains the original element type.
+Function calls will be checked by verifying the number and type of arguments against the corresponding function declaration. Calls to higher-order functions such as `map()` and `filter()` will therefore require the supplied function and collection to have compatible types.
 
 The type checker will terminate the interpretation process when an invalid type relationship is found. This preserves the two-pass model in which a program is evaluated only after it has successfully passed static analysis.
 
@@ -347,11 +322,11 @@ The type checker will terminate the interpretation process when an invalid type 
 
 The evaluator will recursively traverse the AST and compute the result of each node. An evaluation environment will store the runtime values of variables and functions.
 
-Expressions will be evaluated according to their structure. Integer, float, string, and Boolean literals return their stored values, a variable expression retrieves a value from the current environment, and a binary expression evaluates its operands before applying the relevant operation. Logical expressions will evaluate Boolean operands according to the corresponding `&&` or `||` operator, while the unary `!` operator will negate a Boolean value. A conditional expression first evaluates its Boolean condition and then evaluates only the selected branch.
+Expressions will be evaluated according to their structure. A literal returns its stored value, a variable expression retrieves a value from the current environment, and a binary expression evaluates its operands before applying the relevant operation. A conditional expression first evaluates its Boolean condition and then evaluates only the selected branch.
 
 Function calls will evaluate their arguments and bind the resulting values to the function's parameters in a new execution environment. The function body is then evaluated within that environment. The value of the final expression in a function body will be used as the function's implicit return value, while an explicit `return` statement will provide an early return from the function.
 
-The proposed syntax therefore supports both ordinary function composition and higher-order use without requiring lambda functions. The `map()` and `filter()` operations are treated as built-in higher-order operations by the evaluator, matching the dedicated type-checking rules described above. For example:
+The proposed syntax therefore supports both ordinary function composition and higher-order use without requiring lambda functions. For example:
 
 ```licht
 fn is_even(n: int) -> bool {
@@ -367,7 +342,7 @@ let evens = filter(is_even, numbers);
 let doubled = map(double, numbers);
 ```
 
-In this example, the named functions `is_even` and `double` are passed as values to the built-in operations `filter()` and `map()`. The type checker handles these operations using their dedicated rules rather than requiring a general generic list type. This demonstrates how higher-order functionality can be provided without implementing anonymous functions, closures, or a full parametric type system.
+In this example, the named functions `is_even` and `double` are passed as values to `filter()` and `map()`. This demonstrates how higher-order functionality can be provided without implementing anonymous functions or closures.
 
 The evaluator will also implement basic range-based iteration. For example:
 
@@ -408,9 +383,7 @@ fn abs(n: int) -> int {
 
 let total = add(3, 4);
 let name = "Licht";
-let pi = 3.14159;
 let is_ready = true;
-let can_run = is_ready && pi > 3.0;
 
 if total > 5 {
     print("big");
@@ -441,9 +414,9 @@ let contents = read_file("data.txt");
 write_file("out.txt", contents);
 ```
 
-The example demonstrates several design decisions established in Chapter Two and formalised in this chapter. Function parameters and return types are explicitly annotated, while local variables rely on type inference. Integer, float, string, and Boolean literals are supported directly, while logical operators allow Boolean values and comparison results to be combined into compound conditions. Conditional expressions and range-based iteration are provided directly by the language. Named functions can be passed as values to `map()` and `filter()`, eliminating the need for lambda syntax. File input and output are exposed through built-in operations, providing the language with the ability to work with persistent external data.
+The example demonstrates several design decisions established in Chapter Two and formalised in this chapter. Function parameters and return types are explicitly annotated, while local variables rely on type inference. Conditional expressions and range-based iteration are provided directly by the language. Named functions can be passed as values to `map()` and `filter()`, eliminating the need for lambda syntax. File input and output are exposed through built-in operations, providing the language with the ability to work with persistent external data.
 
-The sample does not include lambda expressions, list comprehensions, or a dedicated iterator abstraction because these features were excluded from the proposed feature set. Logical operators are included because they provide a small amount of additional syntax for expressing fundamental Boolean relationships without requiring a more complex abstraction. The syntax therefore reflects the objective of keeping the language sufficiently expressive for practical examples while maintaining a small implementation.
+The sample does not include lambda expressions, list comprehensions, or a dedicated iterator abstraction because these features were excluded from the proposed feature set. The syntax therefore reflects the objective of keeping the language sufficiently expressive for practical examples while maintaining a small implementation.
 
 ## 3.6 Tools and Technologies
 
@@ -474,8 +447,3 @@ The interpreter will be developed as a standalone Rust application. Source files
 This chapter presented the methodology and design used for the development of the Licht interpreter. An iterative and incremental development methodology was selected so that the lexer, parser, type checker, and evaluator can be implemented and tested in manageable stages. The system requirements were defined in terms of the functional capabilities and non-functional qualities derived from the literature review.
 
 The architecture of the interpreter follows a pipeline from source code through lexical analysis, parsing, AST construction, type checking, and tree-walking evaluation. The component design described the responsibilities of the lexer, parser, AST, type checker, and evaluator, while the proposed grammar and sample program established the intended syntax of the language. The implementation will use Rust and its standard library, with the core interpreter components written without external crates. Together, these decisions provide the foundation for the implementation and subsequent testing of the Licht interpreter.
-
-
-# References
-Nystrom, R. (2021). Crafting Interpreters. Genever Benning.
-Pierce, B. C. (2002). Types and Programming Languages. MIT Press.
