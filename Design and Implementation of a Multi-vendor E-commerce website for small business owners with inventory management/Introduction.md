@@ -6,49 +6,42 @@ The aim of this study is to design and implement a web-based multi-vendor e-comm
 
 
 
-## Objectives of the Study
+## ### Objectives of the Study
 
-The main objective of this study is to design and implement a multi-vendor e-commerce website for small business owners with integrated inventory management.
+The main objective of this study is to develop and implement a multi-vendor e-commerce website for small business owners with integrated inventory management.
 
 The specific objectives are to:
 
-1. Design and implement a secure user management system that supports customer, vendor, and administrator accounts with appropriate role-based access control.
+1. **Develop** a secure user management system that supports customer, vendor, and administrator accounts with appropriate role-based access control.
     
-2. Develop an administrative management module that enables the administrator to approve vendor registrations, manage users and products, monitor platform activities, and manually resolve disputes between customers and vendors.
+2. **Create** an administrative management module that enables the administrator to approve vendor registrations, manage users and products, monitor platform activities, and manually resolve disputes between customers and vendors.
     
-3. Design and implement a vendor dashboard that enables approved vendors to add, edit, delete, and manage their products and inventory.
+3. **Implement** a vendor dashboard that enables approved vendors to add, edit, delete, and manage their products and inventory.
     
-4. Develop a customer-facing marketplace that enables customers to browse, search for, and purchase products from multiple vendors through a unified shopping cart and checkout system.
+4. **Build** a customer-facing marketplace that enables customers to browse, search for, and purchase products from multiple vendors through a unified shopping cart and checkout system.
     
-5. Implement a secure online payment module that enables customers to complete purchases using supported electronic payment methods.
+5. **Implement** a secure online payment module that enables customers to complete purchases using supported electronic payment methods.
     
-6. Design and implement an inventory management system that automatically updates product stock levels after successful purchases and generates low-stock alerts for vendors.
+6. **Develop** an inventory management system that automatically updates product stock levels after successful purchases and generates low-stock alerts for vendors.
     
-7. Develop an order management and delivery tracking system that enables vendors to process and update orders up to the dispatch stage, while allowing administrators to manage and update delivery statuses until order completion.
+7. **Implement** a notification system that delivers relevant updates to customers and vendors, including order confirmations, payment confirmations, and changes in order status.
     
-8. Implement a notification system that delivers relevant updates to customers and vendors, including order confirmations, payment confirmations, and changes in order status.
 
+_(Note: The original Order Management/Delivery Tracking objective has been completely removed and the previous Notification objective is now number 7.)_
 
-## Scope of the Study
+---
 
-This study covers the design and implementation of a web-based multi-vendor e-commerce platform that enables multiple small business owners to sell products through a single online marketplace. The system provides separate interfaces for customers, vendors, and administrators, each with role-specific functionalities.
+### Scope of the Study
 
-The system allows customers to create accounts, browse and search for products from multiple vendors, manage shopping carts, make online payments, place orders, and track the status of their orders.
+_(Rewritten to keep the "Specifications Not Scope" boundary, and to clearly emphasize the responsive mobile browser aspect)_
 
-Approved vendors can manage their products through a dedicated dashboard by adding, editing, deleting, and updating product information and inventory. Vendors are also able to process customer orders by confirming, preparing, and updating orders up to the dispatch stage. The inventory management module automatically adjusts stock levels after successful purchases and generates low-stock alerts to assist vendors in monitoring product availability.
+This study is limited to the development of the web-based software platform for small business owners operating within the Nigerian market. The scope encompasses the core architecture and distinct user interfaces for customers, vendors, and administrators to facilitate basic e-commerce transactions.
 
-The administrative module enables the administrator to approve vendor registrations, manage users and products, monitor activities on the platform, resolve disputes between customers and vendors, and oversee delivery status updates from dispatch until order completion.
+However, this research is strictly confined to the software implementation and does not include the management of physical delivery logistics, which is assumed to be handled by external providers. Furthermore, the scope explicitly excludes automated disbursement or payout of funds to vendors, advanced enterprise features such as multi-branch inventory synchronization and warehouse management, sophisticated data analytics, and customer loyalty programs.
 
-The system also provides a notification service that keeps customers and vendors informed of important events, including payment confirmations and changes in order status.
+Finally, the study **excludes the development of a native mobile application**; however, the platform **will be designed to be fully responsive** to ensure optimal usability, accessibility, and layout across various mobile browsers and devices.
 
-The implementation of the system is limited to transactions conducted in Nigerian Naira (₦) using a supported online payment gateway.
 
 ## Limitations of the Study
 
-The study is limited to the development of the software platform and does not include the management of physical delivery logistics. Delivery activities are assumed to be carried out by external logistics providers, while the system is responsible only for recording and tracking delivery status.
-
-The system supports online payments by customers through an integrated payment gateway; however, automated disbursement or payout of funds to vendors is outside the scope of this study.
-
-The platform is designed for small business owners and therefore does not incorporate advanced enterprise features such as warehouse management, multi-branch inventory synchronization, advanced analytics, or customer loyalty programs.
-
-The study also excludes mobile application development, focusing solely on the implementation of a responsive web-based platform.
+come back to this after everything to know the limits and challenges 
