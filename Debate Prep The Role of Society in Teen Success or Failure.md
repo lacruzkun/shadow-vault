@@ -1,5 +1,5 @@
 
-**My side: SUCCESS**
+**My side: SUCCES**
 
 ---
 
