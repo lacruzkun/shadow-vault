@@ -1,4 +1,8 @@
+# Table
 
+- [[Statistics]]
+- [[Random Numbers]]
+- [[UML]]
 # System
 
 Ok from my understanding system is a collection of related components working together to achieve a specific objective on the environment.
