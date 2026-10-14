@@ -33,3 +33,7 @@ type analysis
 Dynamic Analysis
 Instrumentation
 Fuzz testing (Fuzzy logic)
+
+
+
+Formal verification and testing
