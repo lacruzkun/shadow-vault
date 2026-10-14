@@ -11,12 +11,11 @@ benefits of mathematical models
 
 Fuzzy logic
 
-Read on The purpose of Z notation, VDM, B-model, CSP
-Application of Simulation 
 
 
 
 Model Based specification
+Read on The purpose of Z notation, VDM, B-model, CSP
 Description
 Preconditions 
 Post condition 
