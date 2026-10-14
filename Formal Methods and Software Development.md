@@ -1,3 +1,14 @@
+
+Mathematical Model
+
+Formal Model
+
+where is this used?
+
+benefits of mathematical models
+
+
+
 Fuzzy logic
 
 Read on The purpose of Z notation, VDM, B-model, CSP
