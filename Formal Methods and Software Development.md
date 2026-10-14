@@ -9,7 +9,7 @@ benefits of mathematical models
 
 
 
-Fuzzy logic
+
 
 
 
@@ -24,3 +24,12 @@ Property Based specification purely by stating the properties or axioms that the
 
 
 Program Analysis
+
+Static Analysis
+Control flow
+data flow
+type analysis
+
+Dynamic Analysis
+Instrumentation
+Fuzz testing (Fuzzy logic)
