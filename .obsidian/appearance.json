@@ -2,7 +2,8 @@
   "theme": "obsidian",
   "cssTheme": "AnuPpuccin",
   "enabledCssSnippets": [
-    "extended-colorschemes"
+    "extended-colorschemes",
+    "noctalia"
   ],
   "baseFontSize": 16
 }
