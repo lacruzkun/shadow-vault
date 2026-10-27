@@ -4,7 +4,7 @@ This chapter turns the design decisions of Chapter Two into a methodology, a set
 
 Chapter One introduced the project: the background to the study, the motivation for a small beginner-oriented programming language, and the aim and objectives of building a reference interpreter for it. Chapter Two reviewed how Rust, Python, Haskell, Lisp, Lua, OCaml, and JavaScript runtimes execute programs, and compared the challenges they face in balancing performance against simplicity, in the timing of type errors, in syntax complexity, and in feature completeness. From that comparison it derived the main design decisions for Licht: a separate static type-checking pass with explicit function signatures and inferred local variables, a tree-walking execution model, common constructs provided directly by the language, and a focused feature set that excludes lambda functions, comprehensions, and complex iterator abstractions.
 
-This chapter has seven sections. Section 3.1 names and describes the development methodology. Section 3.2 sets out the system requirements and the scope of the project. Section 3.3 presents the architecture of the interpreter, with diagrams of its design and of the flow of data and information through it. Section 3.4 describes the design of each component: the lexer, parser, abstract syntax tree, type checker, and evaluator. Section 3.5 illustrates the proposed syntax with a sample program. Section 3.6 describes the tools and technologies, and Section 3.7 summarises the chapter.
+This chapter has seven sections. Section 3.1 names and describes the development methodology. Section 3.2 sets out the user requirements, the system requirements, and the scope of the project. Section 3.3 presents the architecture of the interpreter, with diagrams of its design and of the flow of data and information through it. Section 3.4 describes the design of each component: the lexer, parser, abstract syntax tree, type checker, and evaluator. Section 3.5 illustrates the proposed syntax with a sample program. Section 3.6 describes the tools and technologies, and Section 3.7 summarises the chapter.
 
 ## 3.1 Development Methodology
 
@@ -22,15 +22,34 @@ The development process can therefore be represented as a sequence of progressiv
 
 The Iterative and Incremental Development methodology is consistent with the design decisions established in Chapter Two. The review favoured implementation simplicity over maximum execution performance and selected a tree-walking interpreter with a separate type-checking pass. The incremental development method supports these decisions by allowing the individual components of the interpreter to remain small, understandable, and independently testable.
 
-## 3.2 System Requirements
+## 3.2 User and System Requirements
+
+This section states what the intended users need and what the interpreter must therefore do. The user requirements are stated first, from the point of view of the people who will use Licht. The system requirements that follow translate them into the capabilities and constraints of the interpreter.
 
 The system requirements are derived from the feature set and design decisions established in the literature review. They define the capabilities that the Licht interpreter must provide and the constraints that should guide its implementation. The requirements restate the decisions reached in Chapter Two, and each decision produces specific requirements.
 
-The decision to check types statically before execution, with a separate pass over the AST that rejects type errors before evaluation begins, produces requirements 18 and 19 and the non-functional requirement of predictable type behaviour. The hybrid approach to type declarations, with explicit annotations for function parameters and return types and inferred types for local variables, produces requirements 6 and 7. The choice of tree-walking execution, in which source is parsed into an AST that the evaluator walks directly with no bytecode or native code, produces requirements 4 and 20 and the non-functional requirement of simplicity and manageability. The decision to build common constructs into the language, so that conditionals, arithmetic, and functions are not assembled from a small kernel of primitives, produces requirements 9, 10, and 11 and the non-functional requirement of usability. The focused feature set of conditional expressions, named functions as first-class values, `map()` and `filter()`, range-based iteration, and file input and output produces requirements 10 to 17. Finally, the deliberate exclusion of lambda functions, comprehensions, and complex iterator abstractions produces no requirements of its own and is recorded in the project scope in Section 3.2.3.
+The decision to check types statically before execution, with a separate pass over the AST that rejects type errors before evaluation begins, produces functional requirements 18 and 19 and the non-functional requirement of predictable type behaviour. The hybrid approach to type declarations, with explicit annotations for function parameters and return types and inferred types for local variables, produces functional requirements 6 and 7. The choice of tree-walking execution, in which source is parsed into an AST that the evaluator walks directly with no bytecode or native code, produces functional requirements 4 and 20 and the non-functional requirement of simplicity and manageability. The decision to build common constructs into the language, so that conditionals, arithmetic, and functions are not assembled from a small kernel of primitives, produces functional requirements 9, 10, and 11 and the non-functional requirement of usability. The focused feature set of conditional expressions, named functions as first-class values, `map()` and `filter()`, range-based iteration, and file input and output produces functional requirements 10 to 17. Finally, the deliberate exclusion of lambda functions, comprehensions, and complex iterator abstractions produces no requirements of its own and is recorded in the project scope in Section 3.2.4.
 
-### 3.2.1 Functional Requirements
+### 3.2.1 User Requirements
 
-The functional requirements describe the operations that the interpreter must support.
+The intended users of Licht are novice programmers who write and run small programs, and students and educators who study or extend the interpreter. The user requirements describe what these users need to be able to do. They are stated without reference to how the interpreter is built, and each one is supported by the functional requirements named in brackets in Section 3.2.2.
+
+- **UR1.** A user shall be able to write a program in a small, readable language and run it with the interpreter. (Functional requirements 1 and 22.)
+- **UR2.** A user shall be able to store values in named variables without writing out their types. (Functional requirements 5 and 6.)
+- **UR3.** A user shall be able to define named functions whose inputs and result are clearly declared. (Functional requirements 7 and 11.)
+- **UR4.** A user shall be able to work with whole numbers, decimal numbers, true and false values, text, and collections of values. (Functional requirement 8.)
+- **UR5.** A user shall be able to combine values using arithmetic, comparison, and logical operations. (Functional requirement 9.)
+- **UR6.** A user shall be able to make a program choose between alternatives according to a condition. (Functional requirement 10.)
+- **UR7.** A user shall be able to repeat a set of actions for each value in a range. (Functional requirement 15.)
+- **UR8.** A user shall be able to pass a named function to operations that transform every element of a collection or select the elements that meet a condition. (Functional requirements 12, 13, and 14.)
+- **UR9.** A user shall be able to read data from files and write results to files. (Functional requirements 16 and 17.)
+- **UR10.** A user shall be told about a type mistake before the program runs, and a program that contains a type mistake shall not produce partial output. (Functional requirements 18 and 19.)
+- **UR11.** A user shall receive an error message that states the kind of mistake (lexical, syntax, type, or runtime) and where in the program it occurred. (Functional requirement 21.)
+- **UR12.** A user who studies the interpreter shall be able to read its stages (lexical analysis, parsing, type checking, and evaluation) as separate parts, each understandable on its own. (Functional requirements 2, 3, 4, 18, and 20, and the non-functional requirements of simplicity and manageability and of extensibility.)
+
+### 3.2.2 Functional Requirements
+
+The functional requirements describe the operations that the interpreter must support in order to meet the user requirements.
 
 1. The system shall accept source code written in the Licht programming language.
 2. The system shall perform lexical analysis and convert valid source code into a sequence of tokens.
@@ -55,9 +74,9 @@ The functional requirements describe the operations that the interpreter must su
 21. The system shall report lexical, syntax, type, and runtime errors in a form that identifies the failure sufficiently for debugging.
 22. The system shall execute a valid program and produce the expected output.
 
-The functional requirements deliberately exclude lambda functions, comprehensions, and complex iterator abstractions. These exclusions are stated formally as part of the project scope in Section 3.2.3. Logical operators such as `&&`, `||`, and `!` and floating-point numbers are included because Boolean logic is a fundamental programming concept (Pierce, 2002) and can be implemented with a small, clearly defined extension to the expression grammar.
+The functional requirements deliberately exclude lambda functions, comprehensions, and complex iterator abstractions. These exclusions are stated formally as part of the project scope in Section 3.2.4. Logical operators such as `&&`, `||`, and `!` and floating-point numbers are included because Boolean logic is a fundamental programming concept (Pierce, 2002) and can be implemented with a small, clearly defined extension to the expression grammar.
 
-### 3.2.2 Non-Functional Requirements
+### 3.2.3 Non-Functional Requirements
 
 The non-functional requirements describe the qualities and constraints that should guide the implementation.
 
@@ -73,7 +92,7 @@ The non-functional requirements describe the qualities and constraints that shou
 
 **Portability:** The interpreter shall rely primarily on the Rust standard library rather than platform-specific components or external runtime dependencies.
 
-### 3.2.3 Scope of the System
+### 3.2.4 Scope of the System
 
 The scope of the project is the design, implementation, and testing of a reference interpreter for Licht, a lightweight, beginner-oriented language. The scope is limited so that the interpreter stays small and understandable. The exclusions below are deliberate scope controls and are not claims that the omitted features are poor language features.
 
@@ -247,7 +266,7 @@ The evaluation stage also handles operations that interact with the outside envi
 
 ## 3.4 Component Design
 
-This section describes the design of each component. Figure 3.1 shows how the components fit together, and Figure 3.2 shows the data that passes between them.
+This section describes the design of each component. Figure 3.1 shows how the components fit together, Figure 3.2 shows the data that passes between them, and Figure 3.4 shows the design of the evaluator.
 
 ### 3.4.1 Lexer Design
 
@@ -432,6 +451,34 @@ Expressions will be evaluated according to their structure. Integer, float, stri
 
 Function calls will evaluate their arguments and bind the resulting values to the function's parameters in a new execution environment. (Nystrom, 2021) The function body is then evaluated within that environment. The value of the final expression in a function body will be used as the function's implicit return value, while an explicit `return` statement will provide an early return from the function. (Nystrom, 2021)
 
+Figure 3.4 summarises the design of the evaluator. Each node of the verified AST is dispatched according to its kind, the runtime environment is consulted or extended where the rule requires it, built-in operations reach the host file system and the program output, and any failure is reported as a runtime error.
+
+```mermaid
+flowchart TD
+    AST["Verified AST<br/>from the type checker"] --> EVAL["Evaluator<br/>traverses the AST recursively"]
+    EVAL --> KIND{"Kind of node"}
+    KIND -->|"Literal"| LIT["Return the stored value"]
+    KIND -->|"Variable"| VAR["Retrieve the value<br/>from the environment"]
+    KIND -->|"Let or assignment"| LET["Evaluate the expression,<br/>then record the value under the name"]
+    KIND -->|"Unary or binary operator"| OP["Evaluate the operand or operands,<br/>then apply the operator"]
+    KIND -->|"if / else"| COND["Evaluate the condition,<br/>then evaluate only the selected branch"]
+    KIND -->|"for loop"| LOOP["Obtain the values of the range,<br/>then evaluate the body for each value"]
+    KIND -->|"Function call"| ARGS["Evaluate the arguments"]
+    KIND -->|"Built-in operation"| BUILT["print, range, map, filter,<br/>read_file, write_file"]
+    ARGS --> ENV["Create a new execution environment<br/>and bind the parameters"]
+    BUILT -.->|"map and filter call named functions"| ENV
+    ENV --> BODY["Evaluate the function body"]
+    BODY --> RESULT["The final expression gives the value of the call;<br/>return exits the body early"]
+    VAR <--> RENV[("Runtime environment<br/>values of variables and functions")]
+    LET --> RENV
+    ENV --> RENV
+    BUILT --> FS[("Host file system")]
+    BUILT --> OUT["Program output"]
+    EVAL -.->|"failure"| ERR["Runtime error<br/>reported with its category and location"]
+```
+
+*Figure 3.4: Design of the Licht evaluator. Each kind of AST node has its own evaluation rule, the runtime environment holds the values of variables and functions, built-in operations reach the host file system and the program output, and failures are reported as runtime errors.*
+
 The proposed syntax therefore supports both ordinary function composition and higher-order use without requiring lambda functions. The `map()` and `filter()` operations are treated as built-in higher-order operations by the evaluator, matching the dedicated type-checking rules described above. For example:
 
 ```licht
@@ -524,7 +571,7 @@ write_file("out.txt", contents);
 
 The example demonstrates several design decisions established in Chapter Two and formalised in this chapter. Function parameters and return types are explicitly annotated, while local variables rely on type inference. Integer, float, string, and Boolean literals are supported directly, while logical operators allow Boolean values and comparison results to be combined into compound conditions. Conditional expressions and range-based iteration are provided directly by the language. Named functions can be passed as values to `map()` and `filter()`, eliminating the need for lambda syntax. File input and output are exposed through built-in operations, providing the language with the ability to work with persistent external data.
 
-The sample does not include lambda expressions, list comprehensions, or a dedicated iterator abstraction because these features were excluded from the proposed feature set (Section 3.2.3). Logical operators are included because they provide a small amount of additional syntax for expressing fundamental Boolean relationships without requiring a more complex abstraction. The syntax therefore reflects the objective of keeping the language sufficiently expressive for practical examples while maintaining a small implementation.
+The sample does not include lambda expressions, list comprehensions, or a dedicated iterator abstraction because these features were excluded from the proposed feature set (Section 3.2.4). Logical operators are included because they provide a small amount of additional syntax for expressing fundamental Boolean relationships without requiring a more complex abstraction. The syntax therefore reflects the objective of keeping the language sufficiently expressive for practical examples while maintaining a small implementation.
 
 ## 3.6 Tools and Technologies
 
@@ -552,9 +599,9 @@ The interpreter will be developed as a standalone Rust application. Source files
 
 ## 3.7 Chapter Summary
 
-This chapter presented the methodology and design used for the development of the Licht interpreter. The Iterative and Incremental Development (IID) methodology was selected so that the lexer, parser, type checker, and evaluator can be implemented and tested in manageable stages. The system requirements were defined in terms of the functional capabilities and non-functional qualities derived from the literature review, and the scope of the project was stated, including the features that are deliberately excluded.
+This chapter presented the methodology and design used for the development of the Licht interpreter. The Iterative and Incremental Development (IID) methodology was selected so that the lexer, parser, type checker, and evaluator can be implemented and tested in manageable stages. The user requirements were stated first from the point of view of the intended users, the system requirements were defined in terms of the functional capabilities and non-functional qualities derived from the literature review, and the scope of the project was stated, including the features that are deliberately excluded.
 
-The architecture of the interpreter follows a pipeline from source code through lexical analysis, parsing, AST construction, type checking, and tree-walking evaluation, and it was presented through a design diagram, a data and information flow diagram, and a worked example of how the arrangement of the AST determines the result. The component design described the responsibilities of the lexer, parser, AST, type checker, and evaluator, while the proposed grammar and sample program established the intended syntax of the language. The implementation will use Rust and its standard library, with the core interpreter components written without external crates. Together, these decisions provide the foundation for the implementation and subsequent testing of the Licht interpreter.
+The architecture of the interpreter follows a pipeline from source code through lexical analysis, parsing, AST construction, type checking, and tree-walking evaluation, and it was presented through a design diagram, a data and information flow diagram, a worked example of how the arrangement of the AST determines the result, and a design diagram of the evaluator. The component design described the responsibilities of the lexer, parser, AST, type checker, and evaluator, while the proposed grammar and sample program established the intended syntax of the language. The implementation will use Rust and its standard library, with the core interpreter components written without external crates. Together, these decisions provide the foundation for the implementation and subsequent testing of the Licht interpreter.
 
 ## References
 

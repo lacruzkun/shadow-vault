@@ -14,7 +14,7 @@ Licht is implemented as a standalone Rust application whose modules mirror the p
 
 The interpreter is written in Rust and uses only the Rust standard library for its core components, as specified in Section 3.6. No lexer-generator, parser-generator, or parser-combinator crate is used, so the path from source text to tokens, AST nodes, type checking, and evaluation can be followed directly in the project's own code (Nystrom, 2021; Appel, 1997).
 
-The code is organised into separate modules for the lexer, the parser, the AST definitions, the type checker, and the evaluator. Treating each stage boundary as a module boundary allows a stage to be built and tested before the next one depends on it (Graham, 1989), and it supports the extensibility requirement of Section 3.2.2.
+The code is organised into separate modules for the lexer, the parser, the AST definitions, the type checker, and the evaluator. Treating each stage boundary as a module boundary allows a stage to be built and tested before the next one depends on it (Graham, 1989), and it supports the extensibility requirement of Section 3.2.3.
 
 ### 4.2.2 Lexer
 
@@ -48,7 +48,7 @@ A call evaluates its arguments and binds them to the parameters in a new environ
 
 ### 4.2.6 Error Reporting
 
-Each stage reports its own category of error: lexical, syntax, type, or runtime. The category tells the programmer which stage rejected the program, and the message names the source construct involved so it can be located, as required by the error-clarity requirement in Section 3.2.2. Because type checking happens first, type errors never surface as runtime failures. The runtime category is left for failures that depend on the environment, such as a file that cannot be read.
+Each stage reports its own category of error: lexical, syntax, type, or runtime. The category tells the programmer which stage rejected the program, and the message names the source construct involved so it can be located, as required by the error-clarity requirement in Section 3.2.3. Because type checking happens first, type errors never surface as runtime failures. The runtime category is left for failures that depend on the environment, such as a file that cannot be read.
 
 ## 4.3 Testing
 
@@ -143,7 +143,7 @@ Cases T1 to T13 assume the functions `add(x: int, y: int) -> int`, `is_even(n: i
 
 ## 4.4 Verification Against Requirements
 
-Every functional requirement in Section 3.2.1 is covered by at least one test case from Section 4.3. The table groups the requirements (FR1 to FR22, in the order of Section 3.2.1) and lists the cases that exercise them.
+Every functional requirement in Section 3.2.2 is covered by at least one test case from Section 4.3. The table groups the requirements (FR1 to FR22, in the order of Section 3.2.2) and lists the cases that exercise them.
 
 | Requirements | Capability | Test cases |
 | --- | --- | --- |
@@ -163,7 +163,7 @@ Every functional requirement in Section 3.2.1 is covered by at least one test ca
 | FR20 | Tree-walking evaluation | E1 to E10 |
 | FR21 | Lexical, syntax, type, and runtime errors reported | L9, L10, P9 to P11, T3 to T8, E10, I3, I4 |
 
-The non-functional requirements of Section 3.2.2 are assessed by inspection of the design and code rather than by test cases:
+The non-functional requirements of Section 3.2.3 are assessed by inspection of the design and code rather than by test cases:
 
 - **Simplicity, manageability, and portability:** the core uses only the Rust standard library, with no external crate and one module per stage (Section 4.2.1).
 - **Predictable type behaviour:** cases T3 to T13 show that type errors are found before evaluation begins.
