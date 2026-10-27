@@ -388,9 +388,9 @@ The statement means that if Mark loves Jessica, then he is happy with her.
 
 Its logical expression is:
 
-[
+$
 \boxed{L(m,j)\rightarrow H(m,j)}
-]
+$
 
 (ii) Mark loves Jessica and he is happy with her.
 
