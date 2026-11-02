@@ -39,16 +39,7 @@ The objectives of the study are:
 7. To test each stage independently and then the integrated interpreter, and to verify the implementation against the specified requirements, recording which tests exercise each requirement.
 8. To document the requirements, design, implementation, and tests so that the interpreter can serve as a worked example for students of language implementation.
 
-## 1.4 Research Questions
-
-The study is guided by the following questions:
-
-1. Which execution, typing, and feature-set trade-offs found in existing language implementations are relevant to a minimal educational interpreter?
-2. Can a tree-walking interpreter with a separate static type-checking pass, explicit function signatures, and inferred local variable types be implemented in Rust using only its standard library?
-3. Can the selected feature set, including `map()` and `filter()` over named functions, be supported without lambda functions, comprehensions, or complex iterator abstractions?
-4. Can the resulting interpreter be shown, through stage-by-stage testing, to satisfy the specified requirements?
-
-## 1.5 Significance of the Study
+## 1.4 Significance of the Study
 
 The study is intended to benefit the following groups. The benefits to students and educators of language implementation follow directly from what the project delivers. The benefits to novice programmers are design intentions that this project does not measure.
 
@@ -62,7 +53,7 @@ The study is intended to benefit the following groups. The benefits to students 
 
 **The academic record.** The study addresses the gap identified in Chapter Two by providing a documented specification, implementation, and verification of a small reference interpreter.
 
-## 1.6 Scope of the Study
+## 1.5 Scope of the Study
 
 The scope of the study is the design, implementation, and testing of a reference interpreter for Licht, a lightweight, beginner-oriented language. The scope is limited so that the interpreter stays small and understandable. The exclusions below are deliberate scope controls and are not claims that the omitted features are poor language features.
 
@@ -83,7 +74,7 @@ The scope of the study is the design, implementation, and testing of a reference
 - Maximum execution performance, which is ranked below simplicity.
 - External lexer, parser, or parser-generator libraries for the core components.
 
-## 1.7 Limitations of the Study
+## 1.6 Limitations of the Study
 
 The following limitations apply to the study and to the conclusions that can be drawn from it.
 
@@ -95,11 +86,11 @@ The following limitations apply to the study and to the conclusions that can be 
 6. **Reference implementation only.** Licht has a small set of built-in operations and a minimal error-reporting scheme. It is a reference interpreter for study and not a production language with a full standard library or tooling.
 7. **Project constraints.** The study is an undergraduate project carried out by one developer within a limited period, which bounds the number of features that can be designed, implemented, and tested.
 
-## 1.8 Overview of the Methodology
+## 1.7 Overview of the Methodology
 
 The study follows the Iterative and Incremental Development (IID) methodology (Graham, 1989). In this methodology the system is built as a series of increments, and each increment is refined through repeated cycles of implementation, testing, and correction before the next one begins. In this project each increment is one component of the interpreter, built in the order lexer, parser, abstract syntax tree, type checker, and evaluator, and each is tested independently before it is integrated with the stages around it. Chapter Three describes the methodology, the requirements, and the design in detail.
 
-## 1.9 Definition of Terms
+## 1.8 Definition of Terms
 
 **Interpreter.** A program that executes another program, here by traversing its abstract syntax tree directly instead of first translating it into bytecode or native code (Nystrom, 2021).
 
@@ -121,7 +112,7 @@ The study follows the Iterative and Incremental Development (IID) methodology (G
 
 **Higher-order function.** A function that takes another function as an argument or returns one, such as `map()` and `filter()`.
 
-## 1.10 Organisation of the Report
+## 1.9 Organisation of the Report
 
 This report has five chapters. Chapter One introduces the study, including its background, problem, aim and objectives, significance, scope, and limitations. Chapter Two reviews how programming languages are implemented and executed, compares the common challenges that implementations face, and identifies the gap that the study addresses. Chapter Three presents the methodology, the system requirements and scope, the architecture and component design, the proposed grammar and syntax, and the tools and technologies. Chapter Four describes the implementation of each component and the testing of the interpreter against the requirements, and discusses the results. Chapter Five presents the summary, conclusions, and recommendations.
 
