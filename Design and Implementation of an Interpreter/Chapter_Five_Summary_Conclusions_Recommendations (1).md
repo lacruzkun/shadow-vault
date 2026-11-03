@@ -29,8 +29,6 @@ The eight objectives set in Chapter One were addressed as follows.
 
 ## 5.4 Conclusions
 
-The following conclusions are drawn from the study.
-
 1. **A small interpreter with a separate type-checking stage can be built from hand-written components and the Rust standard library alone.** Keeping the lexer, parser, type checker, and evaluator as separate modules allowed each to be built and tested before the next depended on it, which supports the use of the Iterative and Incremental Development methodology for this kind of project (Graham, 1989).
 2. **Early type checking can be made to stop a faulty program before it produces any output.** Because the type checker runs before the evaluator, a program containing a type error is rejected without being evaluated, and it produces no output. This confirms the ordering of the stages. It does not show that early checking helps learners, which remains a design rationale and not an empirical result (Nagura & Kondo, 2024).
 3. **Hybrid typing and dedicated checking rules can support higher-order operations without a generic type system.** Explicit function signatures with inferred local variables, together with dedicated rules for `map()` and `filter()`, gave type-checked higher-order operations at a lower cost in machinery than a full generic system, at the price of named-function-only use and no collection types in annotations.
