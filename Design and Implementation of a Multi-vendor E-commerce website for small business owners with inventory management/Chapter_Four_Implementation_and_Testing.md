@@ -30,19 +30,74 @@ Registration collects the full name, email, optional phone number, account type,
 
 Access is enforced by four decorators placed on the routes: one for customers, one for any vendor, one for approved vendors only, and one for administrators. A vendor who is not yet approved can sign in and see a dashboard but receives an access-denied response on product and inventory pages. Because vendors also hold the customer role, the customer decorator admits them, which is how vendor-as-buyer is supported. After login, the dashboard route sends each user to the administrator, vendor or customer dashboard according to role.
 
+The guard used on the approved-vendor routes is:
+
+```python
+def approved_vendor_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or not current_user.is_vendor:
+            abort(403)
+        if not current_user.vendor_profile or current_user.vendor_profile.status != "APPROVED":
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
+```
+
 ## 4.3.2 Vendor approval
 
 The administrator's vendor page lists vendors by status and shows each vendor's declared location, so the administrator can review it during approval. Four actions are available: approve, reject with a reason, suspend and reactivate. Each action is carried out by the vendor service, which changes the status, stamps the approval or suspension time, writes a row in the status history with the administrator's identity and any note, and sends the vendor a notification. Only vendors in the approved state appear in the public vendor filter and on vendor store pages.
 
+The approval service updates the profile, records the status change and notifies the vendor in one transaction:
+
+```python
+def approve_vendor(vendor_profile, actor_id, note=None):
+    old_status = vendor_profile.status
+    vendor_profile.status = VendorStatus.APPROVED.value
+    vendor_profile.approved_at = datetime.utcnow()
+    vendor_profile.rejection_reason = None
+
+    _record_history(vendor_profile, old_status,
+                    VendorStatus.APPROVED.value, actor_id, note)
+    _notify_vendor(vendor_profile.user_id, "approved")
+    db.session.commit()
+```
+
 ## 4.3.3 Product and category management
 
 Approved vendors create, edit, activate, deactivate and delete their own products through a product form that takes the name, categories, description, price in naira, stock quantity, low-stock threshold, SKU, status and an image. The category field accepts a comma-separated list; each name is matched to an existing category or created, so one product can sit in several categories. Every edit and delete route compares the product's vendor with the logged-in vendor and returns an access-denied response if they differ.
+
+The ownership check at the start of each edit and delete route is:
+
+```python
+product = Product.query.get_or_404(product_id)
+if product.vendor_id != current_user.vendor_profile.id:
+    abort(403)
+```
 
 Images are accepted only with the extensions png, jpg, jpeg, gif and webp. Each upload is renamed with a random identifier, stored under a folder for the product, and given a thumbnail. Uploads are limited to 5 MB. Administrators manage the category list, including adding, editing and removing categories.
 
 ## 4.3.4 Vendor location and location-aware search
 
 The vendor profile stores the business location in three optional fields: the street `address`, which already existed, and two new columns, `city` and `state`. Both new columns are nullable strings of up to 100 characters. They are created by migration `9c1f4a7d2b3e_add_vendor_location_fields.py`, so an existing database can be upgraded without losing its vendor records. Two read-only properties on `VendorProfile` produce the display value. `locality` joins the city and state, and `location` combines the street address with that pair. When the address already contains the locality, the property returns the address once instead of repeating it, and when a vendor supplies only a city and state, the locality is returned on its own. This keeps the old `address` value useful while giving the application structured fields for searching.
+
+```python
+city = db.Column(db.String(100), nullable=True)
+state = db.Column(db.String(100), nullable=True)
+
+@property
+def locality(self):
+    return ", ".join(part for part in (self.city, self.state) if part)
+
+@property
+def location(self):
+    locality = self.locality
+    if self.address and locality:
+        if locality.casefold() in self.address.casefold():
+            return self.address
+        return f"{self.address}, {locality}"
+    return self.address or locality
+```
 
 Registration now collects the optional business address, city and state in `RegistrationForm`. The registration route passes the three values to `create_user`, which trims them and writes them to the vendor profile only for a vendor account. The fields remain optional, so customer registration and existing vendor records are unaffected. On the registration page the location block is marked with `data-vendor-location`; the function `initVendorLocationFields` in `app/static/js/app.js` shows the block when the account type is vendor and hides and disables its inputs for a customer. If JavaScript is unavailable, the fields are still validated on the server and ignored for a customer account.
 
@@ -52,29 +107,45 @@ Vendors can correct the location after registration. The route `vendor.profile` 
 
 Search and filtering use the new fields. In `app/main/routes.py`, the text search (`q`) now matches the product name, description and SKU as before, and also the vendor's address, city and state. A separate location filter accepts `location`, `city` or `state` and applies the same vendor-field match. The filter value is carried through category links, pagination and the filter form, so a search is not lost when the user changes page or category. The demonstration data in `app/seed.py` defines a city and state for each of its vendors, drawn from a list of Nigerian cities.
 
-| Implementation area | Main code location | Behaviour |
-| --- | --- | --- |
-| Data model | `app/models/user.py` | `city` and `state` columns, plus `locality` and `location` display properties |
-| Database migration | `migrations/versions/9c1f4a7d2b3e_add_vendor_location_fields.py` | Adds the two nullable columns to `vendor_profiles` |
-| Registration form | `app/auth/forms.py` | Optional address, city and state with length validation |
-| Registration service | `app/auth/services.py` | Trims and stores the location for vendor accounts |
-| Registration interface | `app/templates/auth/register.html`, `app/static/js/app.js` | Vendor-only location block, hidden for customers |
-| Profile editing | `app/vendor/routes.py`, `app/vendor/forms.py`, `app/templates/vendor/profile.html` | Vendor can update business details, address, city and state after registration |
-| Marketplace display | `app/templates/main/_product_card.html` and related templates | Location shown on product cards, detail page and storefront |
-| Search and filter | `app/main/routes.py`, `app/templates/main/product_list.html` | `q` searches vendor location; location filter and pagination preserve it |
-| Seed data | `app/seed.py` | Each demonstration vendor is defined with a city and state |
-
 The implementation does not calculate distance or rank vendors by proximity. The buyer reads the declared location and decides whether the vendor is close enough, which is the scope set in Section 1.5.
 
 ## 4.3.5 Product search and browsing
 
 The public product page builds one database query from the parameters in the address. It supports a text search across the product name, description and SKU, and across the vendor's address, city and state; a category filter; a minimum and maximum price; a vendor filter; a location filter; an availability filter; four sort orders (newest, price low to high, price high to low, name); and pagination of 12 products a page. Only active and out-of-stock products are shown; draft and inactive products are hidden. Filtering is done in the database, so the page loads only the products being displayed.
 
+The text search is combined with the other filters in the same query:
+
+```python
+search = request.args.get("q", "").strip()
+if search:
+    query = query.filter(or_(
+        Product.name.ilike(f"%{search}%"),
+        Product.description.ilike(f"%{search}%"),
+        Product.sku.ilike(f"%{search}%"),
+        Product.vendor.has(or_(
+            VendorProfile.address.ilike(f"%{search}%"),
+            VendorProfile.city.ilike(f"%{search}%"),
+            VendorProfile.state.ilike(f"%{search}%"),
+        )),
+    ))
+```
+
 ## 4.3.6 Shopping cart and checkout
 
 Each user has one cart, created when first needed. Adding a product checks that it is available and that the requested quantity, including any quantity already in the cart, does not exceed stock. The unit price is saved in the cart item when it is added and refreshed when the quantity is updated. A cart can hold products from several vendors. Users can change quantities, remove an item or clear the cart, and each of these actions checks that the cart item belongs to the logged-in user.
 
 The checkout form collects name, phone, address, city, state, postal code and optional notes. On submission, the order service validates every item again and groups the items by vendor. It then creates the order with the total calculated on the server, one vendor order for each vendor, the order items, and a pending payment record with a unique reference, and finally empties the cart. All of this is committed together. The customer then lands on the order page to pay.
+
+The order service groups cart items by vendor before creating the child orders:
+
+```python
+vendor_items = {}
+for item in cart.items:
+    vendor_id = item.product.vendor_id
+    if vendor_id not in vendor_items:
+        vendor_items[vendor_id] = []
+    vendor_items[vendor_id].append(item)
+```
 
 ## 4.3.7 Payment
 
@@ -85,9 +156,34 @@ Two providers are implemented behind one order process.
 
 The completion routine is the same in both modes. It ignores a payment that has already succeeded, rejects a payment whose amount or currency differs from the order, and then updates the payment, order and vendor orders inside one transaction, as described in Section 3.8.2. A failed payment leaves the order pending and notifies the customer.
 
+The guard that both providers pass through before any state changes is:
+
+```python
+if payment.status == PaymentStatus.SUCCESSFUL.value:
+    return
+
+expected_amount = float(order.total_amount)
+actual_amount = float(transaction_data.get("amount", 0))
+actual_currency = transaction_data.get("currency", "NGN")
+if abs(expected_amount - actual_amount) > 0.01 or actual_currency != "NGN":
+    raise ValueError("Payment amount or currency mismatch")
+```
+
 ## 4.3.8 Inventory management
 
 Stock deduction happens inside the completion routine. For each order item the database is updated with a condition that the stock must be at least the quantity bought, so the update affects no row, and the whole transaction fails, if another purchase has taken the stock first. This prevents overselling. A ledger row records the sale with the previous and new quantity, the order and the payment reference. A low-stock notification is sent to the vendor when the new stock is at or below the threshold and the previous stock was above it, so one crossing produces one alert. A product that reaches zero is set to out of stock, and returns to active when restocked.
+
+The conditional update that prevents two buyers from taking the same last unit is:
+
+```python
+result = db.session.execute(
+    update(Product)
+    .where(Product.id == product.id, Product.stock_quantity >= quantity)
+    .values(stock_quantity=Product.stock_quantity - quantity)
+)
+if result.rowcount == 0:
+    raise ValueError(f"Insufficient stock for {product.name}")
+```
 
 On the vendor inventory page, products are listed with their stock, and those at or below their threshold are shown separately. A vendor can restock or make a manual adjustment; both add to stock and each writes a ledger row.
 
@@ -95,17 +191,75 @@ On the vendor inventory page, products are listed with their stock, and those at
 
 The vendor's order page lists only that vendor's orders. A vendor moves an order from paid to processing, ready for dispatch and dispatched; any other move is refused, and a vendor cannot change another vendor's order. The customer is notified at each step. When an order has been dispatched, the administrator can record in transit, out for delivery, delivered, delivery failed or returned, and the customer is notified of each.
 
+The vendor route accepts only the next step in the sequence:
+
+```python
+transitions = {
+    "PAID": ["PROCESSING"],
+    "PROCESSING": ["READY_FOR_DISPATCH"],
+    "READY_FOR_DISPATCH": ["DISPATCHED"],
+}
+if action not in transitions.get(current_status, []):
+    flash("Invalid status transition.", "danger")
+    return redirect(url_for("vendor.order_detail", vendor_order_id=vendor_order.id))
+```
+
 ## 4.3.10 Notifications
 
 A notification service writes a record for a user with a type, title, message and a link to the related order, product or dispute. Notifications are created for vendor status changes, payments, order progress, delivery updates, low stock and disputes. A small count of unread notifications appears in the navigation bar on every page, and users can read the list, mark one as read or mark all as read.
+
+Every module creates notifications through one service:
+
+```python
+def create_notification(user_id, type, title, message,
+                        related_entity_type=None, related_entity_id=None):
+    notification = Notification(
+        user_id=user_id,
+        type=type,
+        title=title,
+        message=message,
+        related_entity_type=related_entity_type,
+        related_entity_id=related_entity_id,
+    )
+    db.session.add(notification)
+    db.session.commit()
+    return notification
+```
 
 ## 4.3.11 Disputes
 
 From an order, a customer opens a dispute with a subject and description. Only the owner of the order can do so, and all administrators are notified. Customer and administrator can add notes to the dispute thread. The administrator changes the status among open, under review, resolved and closed; resolution records the time, and the customer is notified of each change.
 
+The dispute service checks ownership before the record is created:
+
+```python
+order = Order.query.get_or_404(order_id)
+if order.customer_id != customer_id:
+    raise PermissionError("You can only dispute your own orders")
+
+dispute = Dispute(
+    order_id=order_id,
+    customer_id=customer_id,
+    subject=subject,
+    description=description,
+)
+db.session.add(dispute)
+db.session.commit()
+```
+
 ## 4.3.12 User interface
 
 All pages extend one base template that loads Bootstrap 5 and sets the viewport for mobile screens, so the same pages adapt to desktop, tablet and phone widths. Customers, vendors and administrators each have their own dashboard and navigation. Shared page elements such as the product card, pagination and status badges are kept in reusable template files, which keeps the look consistent across roles. The product card also carries the vendor location, so the marketplace and the home page present it in the same way, and the registration page reveals the location fields only when the visitor chooses a vendor account.
+
+The shared product card keeps the location presentation consistent:
+
+```html
+{% if product.vendor.location %}
+<div class="product-location">
+  <i class="bi bi-geo-alt"></i><span>{{ product.vendor.location }}</span>
+</div>
+{% endif %}
+```
 
 # 4.4 System Testing
 
